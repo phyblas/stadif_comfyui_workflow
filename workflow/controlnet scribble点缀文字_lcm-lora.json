@@ -1,0 +1,147 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "AnythingXL_xl.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "control_net_name": "controlnet-scribble-sdxl-1.0.safetensors"
+    },
+    "class_type": "ControlNetLoader"
+  },
+  "3": {
+    "inputs": {
+      "width": 200,
+      "height": 200,
+      "red": 255,
+      "green": 255,
+      "blue": 255
+    },
+    "class_type": "Image Blank"
+  },
+  "4": {
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "5": {
+    "inputs": {
+      "lora_name": "lcm-lora-sdxl.safetensors",
+      "strength_model": 1,
+      "strength_clip": 1,
+      "model": ["1", 0],
+      "clip": ["1", 1]
+    },
+    "class_type": "LoraLoader"
+  },
+  "6": {
+    "inputs": {
+      "text": "花",
+      "font_size": 80,
+      "font": "meiryoub.ttc",
+      "fill_color_hex": "#000000",
+      "stroke_color_hex": "#000000",
+      "stroke_thickness": 0,
+      "padding": 0,
+      "horizontal_alignment": "center",
+      "vertical_alignment": "middle",
+      "x_shift": 0,
+      "y_shift": 0,
+      "image": ["3", 0]
+    },
+    "class_type": "Text Overlay"
+  },
+  "7": {
+    "inputs": {
+      "sampling": "lcm",
+      "zsnr": false,
+      "model": ["5", 0]
+    },
+    "class_type": "ModelSamplingDiscrete"
+  },
+  "8": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "樱花",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["5", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "9": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "低品质",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["5", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "10": {
+    "inputs": {
+      "multiplier": 0.7,
+      "model": ["7", 0]
+    },
+    "class_type": "RescaleCFG"
+  },
+  "11": {
+    "inputs": {
+      "strength": 1,
+      "start_percent": 0,
+      "end_percent": 1,
+      "positive": ["8", 0],
+      "negative": ["9", 0],
+      "control_net": ["2", 0],
+      "image": ["6", 0]
+    },
+    "class_type": "ControlNetApplyAdvanced"
+  },
+  "12": {
+    "inputs": {
+      "seed": 604986658910490,
+      "steps": 8,
+      "cfg": 2.5,
+      "sampler_name": "lcm",
+      "scheduler": "normal",
+      "denoise": 1,
+      "model": ["10", 0],
+      "positive": ["11", 0],
+      "negative": ["11", 1],
+      "latent_image": ["4", 0]
+    },
+    "class_type": "KSampler"
+  },
+  "13": {
+    "inputs": {
+      "samples": ["12", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "14": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["13", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}
