@@ -1,0 +1,221 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "absolutereality_v181.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "width": 1024,
+      "height": 512,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "3": {
+    "inputs": {
+      "lora_name": "LatentLabs360.safetensors",
+      "strength_model": 1,
+      "strength_clip": 1,
+      "model": ["1", 0],
+      "clip": ["1", 1]
+    },
+    "class_type": "LoraLoader"
+  },
+  "4": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator [free]",
+      "text": "a 360 equirectangular panorama, modelshoot style, 樱花",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["3", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "5": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator [free]",
+      "text": "คุณภาพต่ำ",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["3", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "6": {
+    "inputs": {
+      "seed": 975658872438461,
+      "steps": 20,
+      "cfg": 7,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1,
+      "model": ["3", 0],
+      "positive": ["4", 0],
+      "negative": ["5", 0],
+      "latent_image": ["2", 0]
+    },
+    "class_type": "KSampler"
+  },
+  "7": {
+    "inputs": {
+      "samples": ["6", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "8": {
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "x": 512,
+      "y": 0,
+      "image": ["7", 0]
+    },
+    "class_type": "ImageCrop"
+  },
+  "9": {
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "x": 0,
+      "y": 0,
+      "image": ["7", 0]
+    },
+    "class_type": "ImageCrop"
+  },
+  "10": {
+    "inputs": {
+      "direction": "right",
+      "match_image_size": false,
+      "image1": ["8", 0],
+      "image2": ["9", 0]
+    },
+    "class_type": "ImageConcanate"
+  },
+  "11": {
+    "inputs": {
+      "width": 448,
+      "height": 512,
+      "red": 0,
+      "green": 0,
+      "blue": 0
+    },
+    "class_type": "Image Blank"
+  },
+  "12": {
+    "inputs": {
+      "width": 128,
+      "height": 512,
+      "red": 255,
+      "green": 255,
+      "blue": 255
+    },
+    "class_type": "Image Blank"
+  },
+  "13": {
+    "inputs": {
+      "width": 448,
+      "height": 512,
+      "red": 0,
+      "green": 0,
+      "blue": 0
+    },
+    "class_type": "Image Blank"
+  },
+  "14": {
+    "inputs": {
+      "inputcount": 3,
+      "direction": "right",
+      "match_image_size": false,
+      "Update inputs": null,
+      "image_1": ["11", 0],
+      "image_2": ["12", 0],
+      "image_3": ["13", 0]
+    },
+    "class_type": "ImageConcatMulti"
+  },
+  "15": {
+    "inputs": {
+      "channel": "red",
+      "image": ["14", 0]
+    },
+    "class_type": "ImageToMask"
+  },
+  "16": {
+    "inputs": {
+      "grow_mask_by": 40,
+      "pixels": ["10", 0],
+      "vae": ["1", 2],
+      "mask": ["15", 0]
+    },
+    "class_type": "VAEEncodeForInpaint"
+  },
+  "17": {
+    "inputs": {
+      "image": ["10", 0],
+      "mask": ["15", 0]
+    },
+    "class_type": "InpaintPreprocessor"
+  },
+  "18": {
+    "inputs": {
+      "control_net_name": "control_v11p_sd15_inpaint_fp16.safetensors"
+    },
+    "class_type": "ControlNetLoader"
+  },
+  "19": {
+    "inputs": {
+      "strength": 1,
+      "start_percent": 0,
+      "end_percent": 1,
+      "positive": ["4", 0],
+      "negative": ["5", 0],
+      "control_net": ["18", 0],
+      "image": ["17", 0]
+    },
+    "class_type": "ControlNetApplyAdvanced"
+  },
+  "20": {
+    "inputs": {
+      "seed": 937592096639938,
+      "steps": 20,
+      "cfg": 7,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1,
+      "model": ["3", 0],
+      "positive": ["19", 0],
+      "negative": ["19", 1],
+      "latent_image": ["16", 0]
+    },
+    "class_type": "KSampler"
+  },
+  "21": {
+    "inputs": {
+      "samples": ["20", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "22": {
+    "inputs": {
+      "filename_prefix": "latentlabs360",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["21", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}

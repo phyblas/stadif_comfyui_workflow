@@ -1,0 +1,95 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "stableVideoDiffusion_img2vidXt11.safetensors"
+    },
+    "class_type": "ImageOnlyCheckpointLoader"
+  },
+  "2": {
+    "inputs": {
+      "image": "",
+      "upload": "image"
+    },
+    "class_type": "LoadImage"
+  },
+  "3": {
+    "inputs": {
+      "b1": 1.3,
+      "b2": 1.4000000000000001,
+      "s1": 0.9,
+      "s2": 0.2,
+      "model": ["1", 0]
+    },
+    "class_type": "FreeU_V2"
+  },
+  "4": {
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "video_frames": 25,
+      "motion_bucket_id": 114,
+      "fps": 14,
+      "augmentation_level": 0.02,
+      "clip_vision": ["1", 1],
+      "init_image": ["2", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "SVD_img2vid_Conditioning"
+  },
+  "5": {
+    "inputs": {
+      "min_cfg": 2,
+      "model": ["3", 0]
+    },
+    "class_type": "VideoLinearCFGGuidance"
+  },
+  "6": {
+    "inputs": {
+      "seed": 395345477336486,
+      "steps": 12,
+      "cfg": 3,
+      "sampler_name": "euler",
+      "scheduler": "karras",
+      "denoise": 1,
+      "model": ["5", 0],
+      "positive": ["4", 0],
+      "negative": ["4", 1],
+      "latent_image": ["4", 2]
+    },
+    "class_type": "KSampler"
+  },
+  "7": {
+    "inputs": {
+      "samples": ["6", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "8": {
+    "inputs": {
+      "ckpt_name": "rife47.pth",
+      "clear_cache_after_n_frames": 10,
+      "multiplier": 3,
+      "fast_mode": true,
+      "ensemble": true,
+      "scale_factor": 1,
+      "frames": ["7", 0]
+    },
+    "class_type": "RIFE VFI"
+  },
+  "9": {
+    "inputs": {
+      "frame_rate": 24,
+      "loop_count": 0,
+      "filename_prefix": "VFI",
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 20,
+      "save_metadata": true,
+      "pingpong": false,
+      "save_output": true,
+      "images": ["8", 0]
+    },
+    "class_type": "VHS_VideoCombine"
+  }
+}

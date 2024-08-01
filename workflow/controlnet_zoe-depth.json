@@ -1,0 +1,115 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "bluePencilXL_v700.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "control_net_name": "controlnet-zoe-depth-sdxl-1.0.safetensors"
+    },
+    "class_type": "ControlNetLoader"
+  },
+  "3": {
+    "inputs": {
+      "image": "rin_pose.jpg",
+      "upload": "image"
+    },
+    "class_type": "LoadImage"
+  },
+  "4": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "5": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "เด็กสาวผมม่วงอ่อนสวมชุดจีนกำลังเต้นอยู่ในสวนญี่ปุ่น",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "6": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "คุณภาพต่ำ",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "7": {
+    "inputs": {
+      "resolution": 1024,
+      "image": ["3", 0]
+    },
+    "class_type": "Zoe-DepthMapPreprocessor"
+  },
+  "8": {
+    "inputs": {
+      "strength": 1,
+      "start_percent": 0,
+      "end_percent": 1,
+      "positive": ["5", 0],
+      "negative": ["6", 0],
+      "control_net": ["2", 0],
+      "image": ["7", 0]
+    },
+    "class_type": "ControlNetApplyAdvanced"
+  },
+  "9": {
+    "inputs": {
+      "images": ["7", 0]
+    },
+    "class_type": "PreviewImage"
+  },
+  "10": {
+    "inputs": {
+      "seed": 123456789,
+      "steps": 20,
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "denoise": 1,
+      "model": ["1", 0],
+      "positive": ["8", 0],
+      "negative": ["8", 1],
+      "latent_image": ["4", 0]
+    },
+    "class_type": "KSampler"
+  },
+  "11": {
+    "inputs": {
+      "samples": ["10", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "12": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["11", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "absolutereality_v181.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "width": 1024,
+      "height": 512,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "3": {
+    "inputs": {
+      "lora_name": "LatentLabs360.safetensors",
+      "strength_model": 1,
+      "strength_clip": 1,
+      "model": ["1", 0],
+      "clip": ["1", 1]
+    },
+    "class_type": "LoraLoader"
+  },
+  "4": {
+    "inputs": {
+      "text": "a 360 equirectangular panorama"
+    },
+    "class_type": "CR Text"
+  },
+  "5": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "樱花",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide"
+    },
+    "class_type": "DeepTranslatorTextNode"
+  },
+  "6": {
+    "inputs": {
+      "text1": ["4", 0],
+      "text2": ["5", 0],
+      "separator": ", "
+    },
+    "class_type": "CR Text Concatenate"
+  },
+  "7": {
+    "inputs": {
+      "text": ["6", 0],
+      "clip": ["3", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "8": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator [free]",
+      "text": "低品质",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["3", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "9": {
+    "inputs": {
+      "seed": 936833568760158,
+      "tileX": 1,
+      "tileY": 0,
+      "steps": 20,
+      "cfg": 7,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1,
+      "model": ["3", 0],
+      "positive": ["7", 0],
+      "negative": ["8", 0],
+      "latent_image": ["2", 0]
+    },
+    "class_type": "Asymmetric Tiled KSampler"
+  },
+  "10": {
+    "inputs": {
+      "samples": ["9", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "Circular VAEDecode"
+  },
+  "11": {
+    "inputs": {
+      "filename_prefix": "latentlabs360",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["10", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}

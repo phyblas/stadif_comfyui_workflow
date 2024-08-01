@@ -1,0 +1,92 @@
+{
+  "1": {
+    "inputs": {
+      "image": "clipspace/clipspace-mask-30047255.png [input]",
+      "upload": "image"
+    },
+    "class_type": "LoadImage"
+  },
+  "2": {
+    "inputs": {
+      "ckpt_name": "bluePencilXL_v700.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "3": {
+    "inputs": {
+      "stop_at_clip_layer": -2,
+      "clip": ["2", 1]
+    },
+    "class_type": "CLIPSetLastLayer"
+  },
+  "4": {
+    "inputs": {
+      "grow_mask_by": 6,
+      "pixels": ["1", 0],
+      "vae": ["2", 2],
+      "mask": ["1", 1]
+    },
+    "class_type": "VAEEncodeForInpaint"
+  },
+  "5": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["3", 0]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "6": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "低品质",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["3", 0]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "7": {
+    "inputs": {
+      "seed": 123456789,
+      "steps": 20,
+      "cfg": 8,
+      "sampler_name": "uni_pc_bh2",
+      "scheduler": "normal",
+      "denoise": 1,
+      "model": ["2", 0],
+      "positive": ["5", 0],
+      "negative": ["6", 0],
+      "latent_image": ["4", 0]
+    },
+    "class_type": "KSampler"
+  },
+  "8": {
+    "inputs": {
+      "samples": ["7", 0],
+      "vae": ["2", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "9": {
+    "inputs": {
+      "filename_prefix": "inpaint",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["8", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}

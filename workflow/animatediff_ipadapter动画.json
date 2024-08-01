@@ -1,0 +1,134 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "meinamix_meinaV11.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "ipadapter_file": "ip-adapter_sd15_light_v11.bin"
+    },
+    "class_type": "IPAdapterModelLoader"
+  },
+  "3": {
+    "inputs": {
+      "image": "",
+      "upload": "image"
+    },
+    "class_type": "LoadImage"
+  },
+  "4": {
+    "inputs": {
+      "clip_name": "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
+    },
+    "class_type": "CLIPVisionLoader"
+  },
+  "5": {
+    "inputs": {
+      "width": 512,
+      "height": 768,
+      "batch_size": 16
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "6": {
+    "inputs": {
+      "stop_at_clip_layer": -2,
+      "clip": ["1", 1]
+    },
+    "class_type": "CLIPSetLastLayer"
+  },
+  "7": {
+    "inputs": {
+      "weight": 1,
+      "weight_type": "linear",
+      "combine_embeds": "concat",
+      "start_at": 0,
+      "end_at": 1,
+      "embeds_scaling": "V only",
+      "model": ["1", 0],
+      "ipadapter": ["2", 0],
+      "image": ["3", 0],
+      "clip_vision": ["4", 0]
+    },
+    "class_type": "IPAdapterAdvanced"
+  },
+  "8": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "魔法少女",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["6", 0]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "9": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "低品質",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["6", 0]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "10": {
+    "inputs": {
+      "model_name": "mm-Stabilized_mid.pth",
+      "beta_schedule": "sqrt_linear (AnimateDiff)",
+      "motion_scale": 1,
+      "apply_v2_models_properly": true,
+      "model": ["7", 0]
+    },
+    "class_type": "ADE_AnimateDiffLoaderWithContext"
+  },
+  "11": {
+    "inputs": {
+      "seed": 123456789,
+      "steps": 20,
+      "cfg": 7.5,
+      "sampler_name": "dpmpp_sde",
+      "scheduler": "karras",
+      "denoise": 1,
+      "model": ["10", 0],
+      "positive": ["8", 0],
+      "negative": ["9", 0],
+      "latent_image": ["5", 0]
+    },
+    "class_type": "KSampler"
+  },
+  "12": {
+    "inputs": {
+      "samples": ["11", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "13": {
+    "inputs": {
+      "frame_rate": 8,
+      "loop_count": 0,
+      "filename_prefix": "AnimateDiff",
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "pingpong": false,
+      "save_output": true,
+      "images": ["12", 0]
+    },
+    "class_type": "VHS_VideoCombine"
+  }
+}

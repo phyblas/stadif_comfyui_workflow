@@ -1,0 +1,196 @@
+{
+  "1": {
+    "class_type": "LoadImage"
+  },
+  "2": {
+    "inputs": {
+      "detect_hand": "enable",
+      "detect_body": "enable",
+      "detect_face": "enable",
+      "resolution": 512,
+      "image": ["1", 0]
+    },
+    "class_type": "OpenposePreprocessor"
+  },
+  "101": {
+    "inputs": {
+      "images": ["2", 0]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "OpenPose Pose Preview"
+    }
+  },
+  "3": {
+    "inputs": {
+      "environment": "indoor",
+      "resolution": 512,
+      "image": ["1", 0]
+    },
+    "class_type": "Zoe_DepthAnythingPreprocessor"
+  },
+  "102": {
+    "inputs": {
+      "images": ["3", 0]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Zoe Depth Preview"
+    }
+  },
+  "4": {
+    "inputs": {
+      "a": 6.28,
+      "bg_threshold": 0.1,
+      "resolution": 512,
+      "image": ["1", 0]
+    },
+    "class_type": "MiDaS-DepthMapPreprocessor"
+  },
+  "103": {
+    "inputs": {
+      "images": ["4", 0]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "MiDaS Depth Preview"
+    }
+  },
+  "5": {
+    "inputs": {
+      "low_threshold": 101,
+      "high_threshold": 200,
+      "resolution": 512,
+      "image": ["1", 0]
+    },
+    "class_type": "CannyEdgePreprocessor"
+  },
+  "104": {
+    "inputs": {
+      "images": ["5", 0]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Canny Edge Preview"
+    }
+  },
+  "6": {
+    "inputs": {
+      "resolution": 512,
+      "image": ["1", 0]
+    },
+    "class_type": "ScribblePreprocessor"
+  },
+  "105": {
+    "inputs": {
+      "images": ["6", 0]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Scribble Lines Preview"
+    }
+  },
+  "7": {
+    "inputs": {
+      "resolution": 512,
+      "image": ["1", 0]
+    },
+    "class_type": "AnimeLineArtPreprocessor"
+  },
+  "106": {
+    "inputs": {
+      "images": ["7", 0]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Anime Lineart Preview"
+    }
+  },
+  "8": {
+    "inputs": {
+      "guassian_sigma": 6,
+      "intensity_threshold": 8,
+      "resolution": 512,
+      "image": ["1", 0]
+    },
+    "class_type": "LineartStandardPreprocessor"
+  },
+  "107": {
+    "inputs": {
+      "images": ["8", 0]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Standard Lineart Preview"
+    }
+  },
+  "9": {
+    "inputs": {
+      "resolution": 512,
+      "seed": 466491377832419,
+      "image": ["1", 0]
+    },
+    "class_type": "ShufflePreprocessor"
+  },
+  "108": {
+    "inputs": {
+      "images": ["9", 0]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Content Shuffle Preview"
+    }
+  },
+  "10": {
+    "inputs": {
+      "resolution": 512,
+      "image": ["1", 0]
+    },
+    "class_type": "BAE-NormalMapPreprocessor"
+  },
+  "109": {
+    "inputs": {
+      "images": ["10", 0]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "BAE Normal Map Preview"
+    }
+  },
+  "11": {
+    "inputs": {
+      "a": 6.28,
+      "bg_threshold": 0.1,
+      "resolution": 512,
+      "image": ["1", 0]
+    },
+    "class_type": "MiDaS-NormalMapPreprocessor"
+  },
+  "110": {
+    "inputs": {
+      "images": ["11", 0]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "MiDaS Normal Map Preview"
+    }
+  },
+  "12": {
+    "inputs": {
+      "fov": 60,
+      "iterations": 5,
+      "resolution": 512,
+      "image": ["1", 0]
+    },
+    "class_type": "DSINE-NormalMapPreprocessor"
+  },
+  "111": {
+    "inputs": {
+      "images": ["12", 0]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "DSINE Normal Preview"
+    }
+  }
+}
