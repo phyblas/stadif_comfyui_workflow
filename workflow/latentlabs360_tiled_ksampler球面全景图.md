@@ -24,5 +24,5 @@
 
 # 需要模型
 
-### LoRA
+### lora
 - [LatentLabs360](https://civitai.com/models/10753/latentlabs360)

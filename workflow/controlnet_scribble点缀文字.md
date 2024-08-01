@@ -1,8 +1,8 @@
 # 简单说明
 
-用textoverlay节点话文字，然后用controlnet scibble把文字点缀为图片。
+用textoverlay节点画文字，然后用controlnet scibble把文字点缀为图片。
 
-用SDXL模型跟lcm-lora。
+如果文字看不太清楚可以调整controlnet应用的强度让它的值更高。
 
 # 需要插件
 
@@ -23,7 +23,5 @@
 
 # 需要模型
 ### controlnet
+- [control_v11p_sd15_scribble](https://huggingface.co/nolanaatama/models/blob/main/control_v11p_sd15_scribble_fp16.safetensors)
 - [controlnet-scribble-sdxl-1.0](https://huggingface.co/xinsir/controlnet-scribble-sdxl-1.0)
-
-### lora
-- [lcm-lora-sdxl](https://huggingface.co/latent-consistency/lcm-lora-sdxl)
