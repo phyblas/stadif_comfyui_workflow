@@ -1,0 +1,126 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "meinamix_meinaV11.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "context_length": 16,
+      "context_stride": 1,
+      "context_overlap": 4,
+      "context_schedule": "uniform",
+      "closed_loop": false,
+      "fuse_method": "flat",
+      "use_on_equal_length": false,
+      "start_percent": 0,
+      "guarantee_steps": 1
+    },
+    "class_type": "ADE_AnimateDiffUniformContextOptions"
+  },
+  "3": {
+    "inputs": {
+      "lora_name": "lcm-lora-sdv1-5.safetensors",
+      "strength_model": 1,
+      "strength_clip": 1,
+      "model": ["1", 0],
+      "clip": ["1", 1]
+    },
+    "class_type": "LoraLoader"
+  },
+  "4": {
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "batch_size": 16
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "5": {
+    "inputs": {
+      "model_name": "mm-Stabilized_mid.pth",
+      "beta_schedule": "sqrt_linear (AnimateDiff)",
+      "motion_scale": 1,
+      "apply_v2_models_properly": true,
+      "model": ["3", 0],
+      "context_options": ["2", 0]
+    },
+    "class_type": "ADE_AnimateDiffLoaderWithContext"
+  },
+  "6": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "魔法少女在飞",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["3", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "7": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "低品質",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["3", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "8": {
+    "inputs": {
+      "sampling": "lcm",
+      "zsnr": false,
+      "model": ["5", 0]
+    },
+    "class_type": "ModelSamplingDiscrete"
+  },
+  "9": {
+    "inputs": {
+      "seed": 123456789,
+      "steps": 8,
+      "cfg": 1.5,
+      "sampler_name": "lcm",
+      "scheduler": "sgm_uniform",
+      "denoise": 1,
+      "model": ["8", 0],
+      "positive": ["6", 0],
+      "negative": ["7", 0],
+      "latent_image": ["4", 0]
+    },
+    "class_type": "KSampler"
+  },
+  "10": {
+    "inputs": {
+      "samples": ["9", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "11": {
+    "inputs": {
+      "frame_rate": 8,
+      "loop_count": 0,
+      "filename_prefix": "AnimateDiff",
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "pingpong": false,
+      "save_output": true,
+      "images": ["10", 0]
+    },
+    "class_type": "VHS_VideoCombine"
+  }
+}

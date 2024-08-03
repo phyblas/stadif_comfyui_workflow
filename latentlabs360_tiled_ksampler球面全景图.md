@@ -13,6 +13,7 @@
 - - CR Text Concatenate
 
 - [AlekPet / ComfyUI_Custom_Nodes_AlekPet](https://github.com/AlekPet/ComfyUI_Custom_Nodes_AlekPet)
+- - DeepTranslatorTextNode
 - - DeepTranslatorCLIPTextEncodeNode
 
 - [FlyingFireCo / tiled_ksampler](https://github.com/FlyingFireCo/tiled_ksampler)

@@ -1,14 +1,11 @@
 # 简单说明
 
-用animatediff和ipadapter，从一张图片跟提示词来生成动画。
+由animatediff用示词来生成动画。也用lcm-lora所以很快速的。
 
 # 需要插件
 
-- [siliconflow / BizyAir](https://github.com/siliconflow/BizyAir)
-- - IPAdapterModelLoader
-- - IPAdapterAdvanced
-
 - [Kosinkadink / ComfyUI-AnimateDiff-Evolved](https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved)
+- - ADE_AnimateDiffUniformContextOptions
 - - ADE_AnimateDiffLoaderWithContext
 
 - [AlekPet / ComfyUI_Custom_Nodes_AlekPet](https://github.com/AlekPet/ComfyUI_Custom_Nodes_AlekPet)
@@ -25,5 +22,5 @@
 ### animatediff
 - [mm-Stabilized_mid](https://huggingface.co/manshoety/AD_Stabilized_Motion/blob/main/mm-Stabilized_mid.pth)
 
-### clip_vision
-- [CLIP-ViT-H-14-laion2B-s32B-b79K](https://huggingface.co/laion/CLIP-ViT-H-14-laion2B-s32B-b79K)
+### lora
+- [lcm-lora-sdxl](https://huggingface.co/latent-consistency/lcm-lora-sdxl)
