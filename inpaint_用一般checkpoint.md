@@ -4,7 +4,7 @@
 
 采用DeepTranslatorCLIPTextEncodeNode来做自动翻译并使用SaveImagePlus来保存为jpg扩展。
 
-但效果不如[用controlnet inpaint来做内补](https://github.com/phyblas/stadif_comfyui_workflow/blob/master/workflow/controlnet_inpaint.json)。
+但效果不如[用controlnet inpaint来做内补](controlnet_inpaint.json)。
 
 # 需要插件
 
