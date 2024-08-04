@@ -1,0 +1,27 @@
+{
+  "1": {
+    "inputs": {
+      "model_name": "RealESRGAN_x2.pth"
+    },
+    "class_type": "UpscaleModelLoader"
+  },
+  "2": {
+    "class_type": "LoadImage"
+  },
+  "3": {
+    "inputs": {
+      "upscale_model": ["1", 0],
+      "image": ["2", 0]
+    },
+    "class_type": "ImageUpscaleWithModel"
+  },
+  "4": {
+    "inputs": {
+      "filename_prefix": "realesrgan",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["3", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}
