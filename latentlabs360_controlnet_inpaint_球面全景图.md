@@ -4,7 +4,7 @@
 
 提示词必须包含“a 360 equirectangular panorama”。
 
-这个工作流有点复杂。比较推荐[采用tiled_ksampler的方法](latentlabs360_tiled_ksampler球面全景图.json)。
+这个工作流有点复杂。比较推荐[采用tiled_ksampler的方法](latentlabs360_tiled_ksampler_球面全景图.json)。
 
 不能使用SDXL模型。
 

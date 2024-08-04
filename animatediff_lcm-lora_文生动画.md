@@ -16,9 +16,6 @@
 
 # 需要模型
 
-### ipadapter
-- [ip-adapter_sd15_light_v11](https://huggingface.co/h94/IP-Adapter)
-
 ### animatediff
 - [mm-Stabilized_mid](https://huggingface.co/manshoety/AD_Stabilized_Motion/blob/main/mm-Stabilized_mid.pth)
 
