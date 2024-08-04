@@ -12,17 +12,11 @@
     "class_type": "ControlNetLoader"
   },
   "3": {
-    "inputs": {
-      "image": "",
-      "upload": "image"
-    },
     "class_type": "LoadImage"
   },
   "4": {
     "inputs": {
-      "image": "",
-      "channel": "red",
-      "upload": "image"
+      "channel": "red"
     },
     "class_type": "LoadImageMask"
   },

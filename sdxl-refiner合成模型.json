@@ -1,0 +1,142 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "bluePencilXL_v700.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "ckpt_name": "crystalClearOneVs1_v10.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "3": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "4": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "樱花树下的和服猫耳娘",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide"
+    },
+    "class_type": "DeepTranslatorTextNode"
+  },
+  "5": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "低品质",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide"
+    },
+    "class_type": "DeepTranslatorTextNode"
+  },
+  "6": {
+    "inputs": {
+      "text": ["4", 0],
+      "clip": ["1", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "7": {
+    "inputs": {
+      "text": ["5", 0],
+      "clip": ["1", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "8": {
+    "inputs": {
+      "text": ["4", 0],
+      "clip": ["2", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "9": {
+    "inputs": {
+      "text": ["5", 0],
+      "clip": ["2", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "10": {
+    "inputs": {
+      "value": 20
+    },
+    "class_type": "JWInteger"
+  },
+  "11": {
+    "inputs": {
+      "value": 12
+    },
+    "class_type": "JWInteger"
+  },
+  "12": {
+    "inputs": {
+      "add_noise": "enable",
+      "noise_seed": 123456789,
+      "steps": ["10", 0],
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "start_at_step": 0,
+      "end_at_step": ["11", 0],
+      "return_with_leftover_noise": "enable",
+      "model": ["1", 0],
+      "positive": ["6", 0],
+      "negative": ["7", 0],
+      "latent_image": ["3", 0]
+    },
+    "class_type": "KSamplerAdvanced"
+  },
+  "13": {
+    "inputs": {
+      "add_noise": "disable",
+      "noise_seed": 123456789,
+      "steps": ["10", 0],
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "start_at_step": ["11", 0],
+      "end_at_step": ["10", 0],
+      "return_with_leftover_noise": "disable",
+      "model": ["2", 0],
+      "positive": ["8", 0],
+      "negative": ["9", 0],
+      "latent_image": ["12", 0]
+    },
+    "class_type": "KSamplerAdvanced"
+  },
+  "14": {
+    "inputs": {
+      "samples": ["13", 0],
+      "vae": ["2", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "15": {
+    "inputs": {
+      "filename_prefix": "Refiner",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["14", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}

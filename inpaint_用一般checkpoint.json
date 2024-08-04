@@ -1,9 +1,5 @@
 {
   "1": {
-    "inputs": {
-      "image": "",
-      "upload": "image"
-    },
     "class_type": "LoadImage"
   },
   "2": {
