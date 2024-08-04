@@ -1,7 +1,7 @@
 {
   "1": {
     "inputs": {
-      "image": "clipspace/clipspace-mask-30047255.png [input]",
+      "image": "",
       "upload": "image"
     },
     "class_type": "LoadImage"
