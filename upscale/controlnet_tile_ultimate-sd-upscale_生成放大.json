@@ -1,0 +1,137 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "bluePencilXL_v700.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "3": {
+    "inputs": {
+      "control_net_name": "controlnet-tile-sdxl-1.0.safetensors"
+    },
+    "class_type": "ControlNetLoader"
+  },
+  "4": {
+    "inputs": {
+      "model_name": "4x-UltraSharp.pth"
+    },
+    "class_type": "UpscaleModelLoader"
+  },
+  "5": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "樱花树下的和服猫耳娘",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "6": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "低品质",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "7": {
+    "inputs": {
+      "add_noise": "enable",
+      "noise_seed": 123456789,
+      "steps": 11,
+      "cfg": 6,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "start_at_step": 0,
+      "end_at_step": 10,
+      "return_with_leftover_noise": "disable",
+      "model": ["1", 0],
+      "positive": ["5", 0],
+      "negative": ["6", 0],
+      "latent_image": ["2", 0]
+    },
+    "class_type": "KSamplerAdvanced"
+  },
+  "8": {
+    "inputs": {
+      "samples": ["7", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "9": {
+    "inputs": {
+      "strength": 1,
+      "conditioning": ["5", 0],
+      "control_net": ["3", 0],
+      "image": ["8", 0]
+    },
+    "class_type": "ControlNetApply"
+  },
+  "10": {
+    "inputs": {
+      "upscale_by": 2,
+      "seed": 123456789,
+      "steps": 10,
+      "cfg": 6,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 0.5,
+      "mode_type": "Linear",
+      "tile_width": 512,
+      "tile_height": 512,
+      "mask_blur": 16,
+      "tile_padding": 32,
+      "seam_fix_mode": "Half Tile",
+      "seam_fix_denoise": 0.5,
+      "seam_fix_width": 64,
+      "seam_fix_mask_blur": 16,
+      "seam_fix_padding": 32,
+      "force_uniform_tiles": true,
+      "tiled_decode": false,
+      "image": ["8", 0],
+      "model": ["1", 0],
+      "positive": ["9", 0],
+      "negative": ["6", 0],
+      "vae": ["1", 2],
+      "upscale_model": ["4", 0]
+    },
+    "class_type": "UltimateSDUpscale"
+  },
+  "11": {
+    "inputs": {
+      "filename_prefix": "upscale",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["10", 0]
+    },
+    "class_type": "SaveImagePlus"
+  },
+  "12": {
+    "inputs": {
+      "images": ["8", 0]
+    },
+    "class_type": "PreviewImage"
+  }
+}
