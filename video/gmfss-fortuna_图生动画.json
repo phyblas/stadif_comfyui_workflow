@@ -1,0 +1,39 @@
+{
+  "1": {
+    "class_type": "LoadImage"
+  },
+  "2": {
+    "class_type": "LoadImage"
+  },
+  "3": {
+    "inputs": {
+      "image1": ["1", 0],
+      "image2": ["2", 0]
+    },
+    "class_type": "ImageBatch"
+  },
+  "4": {
+    "inputs": {
+      "ckpt_name": "GMFSS_fortuna_union",
+      "clear_cache_after_n_frames": 10,
+      "multiplier": 16,
+      "frames": ["3", 0]
+    },
+    "class_type": "GMFSS Fortuna VFI"
+  },
+  "5": {
+    "inputs": {
+      "frame_rate": 8,
+      "loop_count": 0,
+      "filename_prefix": "AnimateDiff",
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "pingpong": false,
+      "save_output": true,
+      "images": ["4", 0]
+    },
+    "class_type": "VHS_VideoCombine"
+  }
+}
