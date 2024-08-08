@@ -1,6 +1,6 @@
 # 简单说明
 
-用[3d-pose-editor](https://github.com/hinablue/ComfyUI_3dPoseEditor)来同时做controlnet的openpose和depth map。可以做漂亮不崩坏的手指。
+用[3d-pose-editor](https://github.com/hinablue/ComfyUI_3dPoseEditor)来同时做controlnet的openpose和depth map。depth map是用来控制收不的姿势。可以做漂亮不崩坏的手指。
 
 # 需要插件
 
