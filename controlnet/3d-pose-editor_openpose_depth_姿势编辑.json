@@ -1,0 +1,129 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "meinamix_meinaV11.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator [free]",
+      "text": "双马尾猫耳娘在樱花树下拿着书包",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "3": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator [free]",
+      "text": "低品质",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "4": {
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "5": {
+    "inputs": {
+      "control_net_name": "control_v11p_sd15_openpose.safetensors"
+    },
+    "class_type": "ControlNetLoader"
+  },
+  "6": {
+    "inputs": {
+      "control_net_name": "control_v11f1p_sd15_depth.safetensors"
+    },
+    "class_type": "ControlNetLoader"
+  },
+  "7": {
+    "inputs": {
+      "pose": "OpenPoseEditor_0_pose.png",
+      "depth": "OpenPoseEditor_0_depth.png",
+      "normal": "OpenPoseEditor_0_normal.png",
+      "canny": "OpenPoseEditor_0_canny.png",
+      "op3dOpenPoseEditor_0": null
+    },
+    "class_type": "Hina.PoseEditor3D"
+  },
+  "8": {
+    "inputs": {
+      "strength": 1,
+      "conditioning": ["2", 0],
+      "control_net": ["5", 0],
+      "image": ["7", 0]
+    },
+    "class_type": "ControlNetApply"
+  },
+  "9": {
+    "inputs": {
+      "strength": 0.8,
+      "conditioning": ["8", 0],
+      "control_net": ["6", 0],
+      "image": ["7", 1]
+    },
+    "class_type": "ControlNetApply"
+  },
+  "10": {
+    "inputs": {
+      "seed": 133492359865142,
+      "steps": 20,
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "denoise": 1,
+      "model": ["1", 0],
+      "positive": ["9", 0],
+      "negative": ["3", 0],
+      "latent_image": ["4", 0]
+    },
+    "class_type": "KSampler"
+  },
+  "11": {
+    "inputs": {
+      "samples": ["10", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "12": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["11", 0]
+    },
+    "class_type": "SaveImagePlus"
+  },
+  "13": {
+    "inputs": {
+      "images": ["7", 0]
+    },
+    "class_type": "PreviewImage"
+  },
+  "14": {
+    "inputs": {
+      "images": ["7", 1]
+    },
+    "class_type": "PreviewImage"
+  }
+}

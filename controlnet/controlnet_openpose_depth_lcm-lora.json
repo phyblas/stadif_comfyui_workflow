@@ -1,0 +1,138 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "bluePencilXL_v700.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "lora_name": "lcm-lora-sdxl.safetensors",
+      "strength_model": 1,
+      "strength_clip": 1,
+      "model": ["1", 0],
+      "clip": ["1", 1]
+    },
+    "class_type": "LoraLoader"
+  },
+  "3": {
+    "inputs": {
+      "sampling": "lcm",
+      "zsnr": false,
+      "model": ["2", 0]
+    },
+    "class_type": "ModelSamplingDiscrete"
+  },
+  "4": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator [free]",
+      "text": "双马尾猫耳娘在樱花树下拿着盒子",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["2", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "5": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator [free]",
+      "text": "低品质",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["2", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "6": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "7": {
+    "inputs": {
+      "multiplier": 0.7,
+      "model": ["3", 0]
+    },
+    "class_type": "RescaleCFG"
+  },
+  "8": {
+    "inputs": {
+      "control_net_name": "controlnet-openpose-sdxl-1.0.safetensors"
+    },
+    "class_type": "ControlNetLoader"
+  },
+  "9": {
+    "inputs": {
+      "control_net_name": "controlnet-depth-sdxl-1.0.safetensors"
+    },
+    "class_type": "ControlNetLoader"
+  },
+  "10": {
+    "class_type": "LoadImage"
+  },
+  "11": {
+    "class_type": "LoadImage"
+  },
+  "12": {
+    "inputs": {
+      "strength": 1,
+      "conditioning": ["4", 0],
+      "control_net": ["8", 0],
+      "image": ["10", 0]
+    },
+    "class_type": "ControlNetApply"
+  },
+  "13": {
+    "inputs": {
+      "strength": 0.8,
+      "conditioning": ["12", 0],
+      "control_net": ["9", 0],
+      "image": ["11", 0]
+    },
+    "class_type": "ControlNetApply"
+  },
+  "14": {
+    "inputs": {
+      "seed": 411966886263984,
+      "steps": 8,
+      "cfg": 2.5,
+      "sampler_name": "lcm",
+      "scheduler": "normal",
+      "denoise": 1,
+      "model": ["7", 0],
+      "positive": ["13", 0],
+      "negative": ["5", 0],
+      "latent_image": ["6", 0]
+    },
+    "class_type": "KSampler"
+  },
+  "15": {
+    "inputs": {
+      "samples": ["14", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "16": {
+    "inputs": {
+      "filename_prefix": "controlnet",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["15", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}

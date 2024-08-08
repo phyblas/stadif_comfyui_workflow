@@ -1,0 +1,113 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "meinamix_meinaV11.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator [free]",
+      "text": "双马尾猫耳娘在樱花树下拿着书包",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "3": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator [free]",
+      "text": "低品质",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "4": {
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "5": {
+    "inputs": {
+      "control_net_name": "control_v11p_sd15_openpose.safetensors"
+    },
+    "class_type": "ControlNetLoader"
+  },
+  "6": {
+    "inputs": {
+      "control_net_name": "control_v11f1p_sd15_depth.safetensors"
+    },
+    "class_type": "ControlNetLoader"
+  },
+  "7": {
+    "class_type": "LoadImage"
+  },
+  "8": {
+    "class_type": "LoadImage"
+  },
+  "9": {
+    "inputs": {
+      "strength": 1,
+      "conditioning": ["2", 0],
+      "control_net": ["5", 0],
+      "image": ["7", 0]
+    },
+    "class_type": "ControlNetApply"
+  },
+  "10": {
+    "inputs": {
+      "strength": 0.8,
+      "conditioning": ["9", 0],
+      "control_net": ["6", 0],
+      "image": ["8", 0]
+    },
+    "class_type": "ControlNetApply"
+  },
+  "11": {
+    "inputs": {
+      "seed": 123456789,
+      "steps": 20,
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "denoise": 1,
+      "model": ["1", 0],
+      "positive": ["10", 0],
+      "negative": ["3", 0],
+      "latent_image": ["4", 0]
+    },
+    "class_type": "KSampler"
+  },
+  "12": {
+    "inputs": {
+      "samples": ["11", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "13": {
+    "inputs": {
+      "filename_prefix": "controlnet",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["12", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}
