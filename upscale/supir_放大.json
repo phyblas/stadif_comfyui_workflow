@@ -1,0 +1,77 @@
+{
+  "1": {
+    "class_type": "LoadImage"
+  },
+  "2": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "高品质，高清",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide"
+    },
+    "class_type": "DeepTranslatorTextNode"
+  },
+  "3": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "低品质，模糊",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide"
+    },
+    "class_type": "DeepTranslatorTextNode"
+  },
+  "4": {
+    "inputs": {
+      "supir_model": "SUPIR-v0Q.ckpt",
+      "sdxl_model": "crystalClearOneVs1_v10.safetensors",
+      "seed": 123456789,
+      "resize_method": "lanczos",
+      "scale_by": 2,
+      "steps": 45,
+      "restoration_scale": -1,
+      "cfg_scale": 4,
+      "a_prompt": ["2", 0],
+      "n_prompt": ["3", 0],
+      "s_churn": 5,
+      "s_noise": 1.003,
+      "control_scale": 1,
+      "cfg_scale_start": 4,
+      "control_scale_start": 0,
+      "color_fix_type": "Wavelet",
+      "keep_model_loaded": true,
+      "use_tiled_vae": true,
+      "encoder_tile_size_pixels": 512,
+      "decoder_tile_size_latent": 64,
+      "diffusion_dtype": "auto",
+      "encoder_dtype": "auto",
+      "batch_size": 1,
+      "use_tiled_sampling": false,
+      "sampler_tile_size": 1024,
+      "sampler_tile_stride": 512,
+      "fp8_unet": false,
+      "fp8_vae": false,
+      "sampler": "RestoreEDMSampler",
+      "image": ["1", 0]
+    },
+    "class_type": "SUPIR_Upscale"
+  },
+  "5": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["4", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}
