@@ -32,8 +32,8 @@
   },
   "4": {
     "inputs": {
-      "supir_model": "SUPIR-v0Q.ckpt",
-      "sdxl_model": "crystalClearOneVs1_v10.safetensors",
+      "supir_model": "SUPIR-v0Q_fp16.safetensors",
+      "sdxl_model": "bluePencilXL_v700.safetensors",
       "seed": 123456789,
       "resize_method": "lanczos",
       "scale_by": 2,

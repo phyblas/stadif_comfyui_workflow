@@ -1,6 +1,8 @@
 # 简单说明
 
-使用SUPUR把图片放大。这里用的是旧版的节点。设定都挤在一个很大的节点。放大的结果很不错，但要花很长时间。
+使用[SUPIR](https://github.com/Fanghua-Yu/SUPIR)把图片放大。这里用的是旧版的节点。设定都挤在一个很大的节点。
+
+放大的结果算不错，但要花很长时间。只支持CUDA。
 
 # 需要插件
 
@@ -16,4 +18,4 @@
 # 需要模型
 
 ### SUPIR
-- [SUPIR-v0Q](https://huggingface.co/camenduru/SUPIR/blob/main/SUPIR-v0Q.ckpt)
+- [SUPIR-v0Q_fp16](https://huggingface.co/Kijai/SUPIR_pruned/tree/main)

@@ -1,0 +1,142 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "bluePencilXL_v700.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "class_type": "LoadImage"
+  },
+  "3": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "高品质，高清",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide"
+    },
+    "class_type": "DeepTranslatorTextNode"
+  },
+  "4": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "低品质，模糊",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide"
+    },
+    "class_type": "DeepTranslatorTextNode"
+  },
+  "5": {
+    "inputs": {
+      "supir_model": "SUPIR\\SUPIR-v0Q_fp16.safetensors",
+      "fp8_unet": false,
+      "diffusion_dtype": "auto",
+      "high_vram": false,
+      "model": ["1", 0],
+      "clip": ["1", 1],
+      "vae": ["1", 2]
+    },
+    "class_type": "SUPIR_model_loader_v2"
+  },
+  "6": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "interpolation": "lanczos",
+      "method": "keep proportion",
+      "condition": "always",
+      "multiple_of": 0,
+      "image": ["2", 0]
+    },
+    "class_type": "ImageResize+"
+  },
+  "7": {
+    "inputs": {
+      "use_tiled_vae": true,
+      "encoder_tile_size": 512,
+      "decoder_tile_size": 512,
+      "encoder_dtype": "auto",
+      "SUPIR_VAE": ["5", 1],
+      "image": ["6", 0]
+    },
+    "class_type": "SUPIR_first_stage"
+  },
+  "8": {
+    "inputs": {
+      "use_tiled_vae": true,
+      "encoder_tile_size": 512,
+      "encoder_dtype": "auto",
+      "SUPIR_VAE": ["7", 0],
+      "image": ["7", 1]
+    },
+    "class_type": "SUPIR_encode"
+  },
+  "9": {
+    "inputs": {
+      "positive_prompt": ["3", 0],
+      "negative_prompt": ["4", 0],
+      "SUPIR_model": ["5", 0],
+      "latents": ["7", 2]
+    },
+    "class_type": "SUPIR_conditioner"
+  },
+  "10": {
+    "inputs": {
+      "seed": 123456789,
+      "steps": 10,
+      "cfg_scale_start": 2,
+      "cfg_scale_end": 1.5,
+      "EDM_s_churn": 5,
+      "s_noise": 1.003,
+      "DPMPP_eta": 1,
+      "control_scale_start": 1,
+      "control_scale_end": 0.9,
+      "restore_cfg": 1,
+      "keep_model_loaded": false,
+      "sampler": "RestoreDPMPP2MSampler",
+      "sampler_tile_size": 1024,
+      "sampler_tile_stride": 512,
+      "SUPIR_model": ["5", 0],
+      "latents": ["8", 0],
+      "positive": ["9", 0],
+      "negative": ["9", 1]
+    },
+    "class_type": "SUPIR_sample"
+  },
+  "11": {
+    "inputs": {
+      "use_tiled_vae": true,
+      "decoder_tile_size": 512,
+      "SUPIR_VAE": ["5", 1],
+      "latents": ["10", 0]
+    },
+    "class_type": "SUPIR_decode"
+  },
+  "12": {
+    "inputs": {
+      "method": "mkl",
+      "image_ref": ["2", 0],
+      "image_target": ["11", 0]
+    },
+    "class_type": "ColorMatch"
+  },
+  "13": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["12", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}
