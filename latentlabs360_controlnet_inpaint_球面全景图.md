@@ -4,7 +4,7 @@
 
 提示词必须包含“a 360 equirectangular panorama”。
 
-这个工作流有点复杂。比较推荐[采用tiled_ksampler的方法](latentlabs360_tiled_ksampler_球面全景图.json)。
+这个工作流比[采用tiled_ksampler的方法](latentlabs360_tiled_ksampler_球面全景图.json)跟复杂得多，但结果好一些。
 
 不能使用SDXL模型。
 
@@ -18,6 +18,7 @@
 
 - [kijai / ComfyUI-KJNodes](https://github.com/kijai/ComfyUI-KJNodes)
 - - ImageConcanate
+- - ImageConcatMulti
 
 - [Fannovel16 / comfyui_controlnet_aux](https://github.com/Fannovel16/comfyui_controlnet_aux)
 - - InpaintPreprocessor
