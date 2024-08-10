@@ -1,6 +1,6 @@
 # 简单说明
 
-用[SDXL-lightning](https://huggingface.co/ByteDance/SDXL-Lightning)来减少采样步数，所以能够很快地生成图。按照[SDXL-Lightning官方提供的工作流](https://huggingface.co/ByteDance/SDXL-Lightning/blob/main/comfyui/sdxl_lightning_workflow_lora.json)。
+用[SDXL-lightning](https://huggingface.co/ByteDance/SDXL-Lightning)来减少采样步数，所以能够很快地生成图，但还是会容易变模糊。按照[SDXL-Lightning官方提供的工作流](https://huggingface.co/ByteDance/SDXL-Lightning/blob/main/comfyui/sdxl_lightning_workflow_lora.json)。
 
 # 需要插件
 
