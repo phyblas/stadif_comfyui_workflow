@@ -6,10 +6,6 @@
     "class_type": "CheckpointLoaderSimple"
   },
   "2": {
-    "inputs": {
-      "image": "Refiner_00060_.jpg",
-      "upload": "image"
-    },
     "class_type": "LoadImage"
   },
   "3": {

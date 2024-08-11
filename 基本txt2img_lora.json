@@ -15,20 +15,50 @@
   },
   "3": {
     "inputs": {
+      "text": "guofeng"
+    },
+    "class_type": "CR Text"
+  },
+  "4": {
+    "inputs": {
       "from_translate": "auto",
       "to_translate": "english",
       "add_proxies": false,
       "proxies": "",
       "auth_data": "",
-      "service": "GoogleTranslator [free]",
+      "service": "GoogleTranslator",
       "text": "樱花树下的猫耳娘",
       "Show proxy": "proxy_hide",
-      "Show authorization": "authorization_hide",
+      "Show authorization": "authorization_hide"
+    },
+    "class_type": "DeepTranslatorTextNode"
+  },
+  "5": {
+    "inputs": {
+      "lora_name": "LatentLabs360.safetensors",
+      "strength_model": 1,
+      "strength_clip": 1,
+      "model": ["1", 0],
       "clip": ["1", 1]
     },
-    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+    "class_type": "LoraLoader"
   },
-  "4": {
+  "6": {
+    "inputs": {
+      "text1": ["3", 0],
+      "text2": ["4", 0],
+      "separator": ", "
+    },
+    "class_type": "CR Text Concatenate"
+  },
+  "7": {
+    "inputs": {
+      "text": ["6", 0],
+      "clip": ["5", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "8": {
     "inputs": {
       "from_translate": "auto",
       "to_translate": "english",
@@ -39,11 +69,11 @@
       "text": "低品质",
       "Show proxy": "proxy_hide",
       "Show authorization": "authorization_hide",
-      "clip": ["1", 1]
+      "clip": ["5", 1]
     },
     "class_type": "DeepTranslatorCLIPTextEncodeNode"
   },
-  "5": {
+  "9": {
     "inputs": {
       "seed": 123456789,
       "steps": 20,
@@ -51,26 +81,26 @@
       "sampler_name": "ddim",
       "scheduler": "ddim_uniform",
       "denoise": 1,
-      "model": ["1", 0],
-      "positive": ["3", 0],
-      "negative": ["4", 0],
+      "model": ["5", 0],
+      "positive": ["7", 0],
+      "negative": ["8", 0],
       "latent_image": ["2", 0]
     },
     "class_type": "KSampler"
   },
-  "6": {
+  "10": {
     "inputs": {
-      "samples": ["5", 0],
+      "samples": ["9", 0],
       "vae": ["1", 2]
     },
     "class_type": "VAEDecode"
   },
-  "7": {
+  "11": {
     "inputs": {
-      "filename_prefix": "txt2img",
+      "filename_prefix": "txt2imglora",
       "file_type": "JPEG",
       "remove_metadata": false,
-      "images": ["6", 0]
+      "images": ["10", 0]
     },
     "class_type": "SaveImagePlus"
   }
