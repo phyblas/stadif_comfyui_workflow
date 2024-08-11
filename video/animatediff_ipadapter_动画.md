@@ -4,7 +4,7 @@
 
 # 需要插件
 
-- [siliconflow / BizyAir](https://github.com/siliconflow/BizyAir)
+- [cubiq / ComfyUI_IPAdapter_plus](https://github.com/cubiq/ComfyUI_IPAdapter_plus)
 - - IPAdapterModelLoader
 - - IPAdapterAdvanced
 
