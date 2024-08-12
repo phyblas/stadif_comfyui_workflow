@@ -1,8 +1,6 @@
 # 简单说明
 
-按照[官方的inpaint例子](https://comfyanonymous.github.io/ComfyUI_examples/inpaint/)来改一下。
-
-采用DeepTranslatorCLIPTextEncodeNode来做自动翻译并使用SaveImagePlus来保存为jpg扩展。
+用一般checkpoint模型来做内补。按照[官方的inpaint例子](https://comfyanonymous.github.io/ComfyUI_examples/inpaint/)来改了一点。
 
 但效果不如[用controlnet inpaint来做内补](controlnet_inpaint.json)。
 

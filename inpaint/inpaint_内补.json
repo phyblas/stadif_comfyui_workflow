@@ -1,26 +1,25 @@
 {
   "1": {
-    "class_type": "LoadImage"
-  },
-  "2": {
     "inputs": {
       "ckpt_name": "bluePencilXL_v700.safetensors"
     },
     "class_type": "CheckpointLoaderSimple"
   },
+  "2": {
+    "class_type": "LoadImage"
+  },
   "3": {
     "inputs": {
-      "stop_at_clip_layer": -2,
-      "clip": ["2", 1]
+      "channel": "red"
     },
-    "class_type": "CLIPSetLastLayer"
+    "class_type": "LoadImageMask"
   },
   "4": {
     "inputs": {
       "grow_mask_by": 6,
-      "pixels": ["1", 0],
-      "vae": ["2", 2],
-      "mask": ["1", 1]
+      "pixels": ["2", 0],
+      "vae": ["1", 2],
+      "mask": ["3", 0]
     },
     "class_type": "VAEEncodeForInpaint"
   },
@@ -32,10 +31,10 @@
       "proxies": "",
       "auth_data": "",
       "service": "GoogleTranslator",
-      "text": "",
+      "text": "在哭的少女",
       "Show proxy": "proxy_hide",
       "Show authorization": "authorization_hide",
-      "clip": ["3", 0]
+      "clip": ["1", 1]
     },
     "class_type": "DeepTranslatorCLIPTextEncodeNode"
   },
@@ -50,7 +49,7 @@
       "text": "低品质",
       "Show proxy": "proxy_hide",
       "Show authorization": "authorization_hide",
-      "clip": ["3", 0]
+      "clip": ["1", 1]
     },
     "class_type": "DeepTranslatorCLIPTextEncodeNode"
   },
@@ -58,11 +57,11 @@
     "inputs": {
       "seed": 123456789,
       "steps": 20,
-      "cfg": 8,
-      "sampler_name": "uni_pc_bh2",
-      "scheduler": "normal",
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
       "denoise": 1,
-      "model": ["2", 0],
+      "model": ["1", 0],
       "positive": ["5", 0],
       "negative": ["6", 0],
       "latent_image": ["4", 0]
@@ -72,7 +71,7 @@
   "8": {
     "inputs": {
       "samples": ["7", 0],
-      "vae": ["2", 2]
+      "vae": ["1", 2]
     },
     "class_type": "VAEDecode"
   },

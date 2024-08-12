@@ -1,24 +1,38 @@
 {
   "1": {
     "inputs": {
-      "ckpt_name": "meinamix_meinaV11.safetensors"
+      "ckpt_name": "bluePencilXL_v700.safetensors"
     },
     "class_type": "CheckpointLoaderSimple"
   },
   "2": {
-    "inputs": {
-      "control_net_name": "control_v11p_sd15_inpaint_fp16.safetensors"
-    },
-    "class_type": "ControlNetLoader"
+    "class_type": "LoadImage"
   },
   "3": {
-    "class_type": "LoadImage"
+    "inputs": {
+      "left": 0,
+      "top": 256,
+      "right": 0,
+      "bottom": 256,
+      "feathering": 40,
+      "image": ["2", 0]
+    },
+    "class_type": "ImagePadForOutpaint"
   },
   "4": {
     "inputs": {
-      "channel": "red"
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "樱花树下的猫耳娘",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
     },
-    "class_type": "LoadImageMask"
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
   },
   "5": {
     "inputs": {
@@ -27,8 +41,8 @@
       "add_proxies": false,
       "proxies": "",
       "auth_data": "",
-      "service": "GoogleTranslator [free]",
-      "text": "在哭的少女",
+      "service": "GoogleTranslator",
+      "text": "低品质",
       "Show proxy": "proxy_hide",
       "Show authorization": "authorization_hide",
       "clip": ["1", 1]
@@ -37,75 +51,41 @@
   },
   "6": {
     "inputs": {
-      "from_translate": "auto",
-      "to_translate": "english",
-      "add_proxies": false,
-      "proxies": "",
-      "auth_data": "",
-      "service": "GoogleTranslator [free]",
-      "text": "低品质",
-      "Show proxy": "proxy_hide",
-      "Show authorization": "authorization_hide",
-      "clip": ["1", 1]
-    },
-    "class_type": "DeepTranslatorCLIPTextEncodeNode"
-  },
-  "7": {
-    "inputs": {
-      "image": ["3", 0],
-      "mask": ["4", 0]
-    },
-    "class_type": "InpaintPreprocessor"
-  },
-  "8": {
-    "inputs": {
       "grow_mask_by": 6,
       "pixels": ["3", 0],
       "vae": ["1", 2],
-      "mask": ["4", 0]
+      "mask": ["3", 1]
     },
     "class_type": "VAEEncodeForInpaint"
   },
-  "9": {
-    "inputs": {
-      "strength": 1,
-      "start_percent": 0,
-      "end_percent": 1,
-      "positive": ["5", 0],
-      "negative": ["6", 0],
-      "control_net": ["2", 0],
-      "image": ["7", 0]
-    },
-    "class_type": "ControlNetApplyAdvanced"
-  },
-  "10": {
+  "7": {
     "inputs": {
       "seed": 123456789,
       "steps": 20,
       "cfg": 7,
-      "sampler_name": "euler_ancestral",
-      "scheduler": "normal",
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
       "denoise": 1,
       "model": ["1", 0],
-      "positive": ["9", 0],
-      "negative": ["9", 1],
-      "latent_image": ["8", 0]
+      "positive": ["4", 0],
+      "negative": ["5", 0],
+      "latent_image": ["6", 0]
     },
     "class_type": "KSampler"
   },
-  "11": {
+  "8": {
     "inputs": {
-      "samples": ["10", 0],
+      "samples": ["7", 0],
       "vae": ["1", 2]
     },
     "class_type": "VAEDecode"
   },
-  "12": {
+  "9": {
     "inputs": {
-      "filename_prefix": "controlnet_inpaint",
+      "filename_prefix": "outpaint",
       "file_type": "JPEG",
       "remove_metadata": false,
-      "images": ["11", 0]
+      "images": ["8", 0]
     },
     "class_type": "SaveImagePlus"
   }

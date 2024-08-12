@@ -15,8 +15,5 @@
 
 # 需要模型
 
-### lora
-- [LatentLabs360](https://civitai.com/models/10753/latentlabs360)
-
 ### controlnet
 - [control_v11p_sd15_inpaint_fp16](https://huggingface.co/comfyanonymous/ControlNet-v1-1_fp16_safetensors/blob/main/control_v11p_sd15_inpaint_fp16.safetensors)
