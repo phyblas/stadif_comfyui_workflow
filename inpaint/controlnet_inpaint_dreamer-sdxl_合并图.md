@@ -1,6 +1,6 @@
 # 简单说明
 
-通过controlnet inpaint模型的controlnet-inpaint-dreamer-sdxl来做外补。做法跟原本模型的controlnet inpaint不一样。这个模型的做法是填在白色的部分。
+用controlnet inpaint模型的controlnet-inpaint-dreamer-sdxl做分开生成而合并的图。
 
 # 需要插件
 

@@ -1,25 +1,43 @@
 {
   "1": {
     "inputs": {
-      "ckpt_name": "meinamix_meinaV11.safetensors"
+      "ckpt_name": "bluePencilXL_v700.safetensors"
     },
     "class_type": "CheckpointLoaderSimple"
   },
   "2": {
     "inputs": {
-      "control_net_name": "control_v11p_sd15_inpaint_fp16.safetensors"
+      "control_net_name": "controlnet-inpaint-dreamer-sdxl_v2.safetensors"
     },
     "class_type": "ControlNetLoader"
   },
   "3": {
     "inputs": {
-      "width": 512,
-      "height": 512,
+      "width": 1024,
+      "height": 1024,
       "batch_size": 1
     },
     "class_type": "EmptyLatentImage"
   },
   "4": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "red": 255,
+      "green": 255,
+      "blue": 255
+    },
+    "class_type": "Image Blank"
+  },
+  "5": {
+    "inputs": {
+      "width": 2024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "6": {
     "inputs": {
       "from_translate": "auto",
       "to_translate": "english",
@@ -34,7 +52,7 @@
     },
     "class_type": "DeepTranslatorCLIPTextEncodeNode"
   },
-  "5": {
+  "7": {
     "inputs": {
       "from_translate": "auto",
       "to_translate": "english",
@@ -49,7 +67,7 @@
     },
     "class_type": "DeepTranslatorCLIPTextEncodeNode"
   },
-  "6": {
+  "8": {
     "inputs": {
       "from_translate": "auto",
       "to_translate": "english",
@@ -64,7 +82,7 @@
     },
     "class_type": "DeepTranslatorCLIPTextEncodeNode"
   },
-  "7": {
+  "9": {
     "inputs": {
       "seed": 123456789,
       "steps": 20,
@@ -73,55 +91,37 @@
       "scheduler": "ddim_uniform",
       "denoise": 1,
       "model": ["1", 0],
-      "positive": ["4", 0],
-      "negative": ["6", 0],
+      "positive": ["6", 0],
+      "negative": ["8", 0],
       "latent_image": ["3", 0]
     },
     "class_type": "KSampler"
   },
-  "8": {
+  "10": {
     "inputs": {
-      "samples": ["7", 0],
+      "samples": ["9", 0],
       "vae": ["1", 2]
     },
     "class_type": "VAEDecode"
   },
-  "9": {
-    "inputs": {
-      "left": 0,
-      "top": 0,
-      "right": 512,
-      "bottom": 0,
-      "feathering": 40,
-      "image": ["8", 0]
-    },
-    "class_type": "ImagePadForOutpaint"
-  },
-  "10": {
-    "inputs": {
-      "image": ["9", 0],
-      "mask": ["9", 1]
-    },
-    "class_type": "InpaintPreprocessor"
-  },
   "11": {
     "inputs": {
-      "grow_mask_by": 6,
-      "pixels": ["9", 0],
-      "vae": ["1", 2],
-      "mask": ["9", 1]
+      "direction": "right",
+      "match_image_size": false,
+      "image1": ["10", 0],
+      "image2": ["4", 0]
     },
-    "class_type": "VAEEncodeForInpaint"
+    "class_type": "ImageConcanate"
   },
   "12": {
     "inputs": {
       "strength": 1,
       "start_percent": 0,
       "end_percent": 1,
-      "positive": ["5", 0],
-      "negative": ["6", 0],
+      "positive": ["7", 0],
+      "negative": ["8", 0],
       "control_net": ["2", 0],
-      "image": ["10", 0]
+      "image": ["11", 0]
     },
     "class_type": "ControlNetApplyAdvanced"
   },
@@ -136,7 +136,7 @@
       "model": ["1", 0],
       "positive": ["12", 0],
       "negative": ["12", 1],
-      "latent_image": ["11", 0]
+      "latent_image": ["5", 0]
     },
     "class_type": "KSampler"
   },

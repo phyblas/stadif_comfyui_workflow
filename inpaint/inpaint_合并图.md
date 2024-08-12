@@ -1,6 +1,6 @@
 # 简单说明
 
-用一般checkpoint模型来做外补。按照[官方的inpaint例子](https://comfyanonymous.github.io/ComfyUI_examples/inpaint/)。
+用inpaint来做分开生成而合并的图。先生成一部分，再用不同的提示词生成另外一部分。但是两个部分之间的边界融合得不太好。
 
 # 需要插件
 
