@@ -14,7 +14,7 @@
 
 # 需要模型
 
-### checkpoint
+### unet
 - [flux1-schnell](https://huggingface.co/black-forest-labs/FLUX.1-schnell/blob/main/flux1-schnell.safetensors)
 
 ### clip_vision

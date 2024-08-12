@@ -1,8 +1,8 @@
 # 简单说明
 
-按照[comfyui官方的工作流](https://github.com/comfyanonymous/ComfyUI_examples/tree/master/flux)。只要下载[个别为comfyui用的合成checkpoint模型](https://huggingface.co/Comfy-Org/flux1-schnell/blob/main/flux1-schnell-fp8.safetensors)就好。
+基于[comfyui官方的工作流](https://github.com/comfyanonymous/ComfyUI_examples/tree/master/flux)。只要下载一个[个别为comfyui用的合成checkpoint模型](https://huggingface.co/Comfy-Org/flux1-schnell/blob/main/flux1-schnell-fp8.safetensors)就好。这样就看来跟基本工作流差不多。
 
-首先不要忘了把comfyui更新为最新版。
+首先不要忘了把comfyui更新为最新版本。
 
 # 需要插件
 
