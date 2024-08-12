@@ -1,0 +1,159 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "meinamix_meinaV11.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "control_net_name": "control_v11p_sd15_inpaint_fp16.safetensors"
+    },
+    "class_type": "ControlNetLoader"
+  },
+  "3": {
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "4": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator [free]",
+      "text": "绿色双马尾的猫耳娘",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "5": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator [free]",
+      "text": "粉红色辫子头发的猫耳娘",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "6": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator [free]",
+      "text": "低品质",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "7": {
+    "inputs": {
+      "seed": 123456789,
+      "steps": 20,
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "denoise": 1,
+      "model": ["1", 0],
+      "positive": ["4", 0],
+      "negative": ["6", 0],
+      "latent_image": ["3", 0]
+    },
+    "class_type": "KSampler"
+  },
+  "8": {
+    "inputs": {
+      "samples": ["7", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "9": {
+    "inputs": {
+      "left": 0,
+      "top": 0,
+      "right": 512,
+      "bottom": 0,
+      "feathering": 40,
+      "image": ["8", 0]
+    },
+    "class_type": "ImagePadForOutpaint"
+  },
+  "10": {
+    "inputs": {
+      "image": ["9", 0],
+      "mask": ["9", 1]
+    },
+    "class_type": "InpaintPreprocessor"
+  },
+  "11": {
+    "inputs": {
+      "grow_mask_by": 6,
+      "pixels": ["9", 0],
+      "vae": ["1", 2],
+      "mask": ["9", 1]
+    },
+    "class_type": "VAEEncodeForInpaint"
+  },
+  "12": {
+    "inputs": {
+      "strength": 1,
+      "start_percent": 0,
+      "end_percent": 1,
+      "positive": ["5", 0],
+      "negative": ["6", 0],
+      "control_net": ["2", 0],
+      "image": ["10", 0]
+    },
+    "class_type": "ControlNetApplyAdvanced"
+  },
+  "13": {
+    "inputs": {
+      "seed": 737002365927822,
+      "steps": 20,
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "denoise": 1,
+      "model": ["1", 0],
+      "positive": ["12", 0],
+      "negative": ["12", 1],
+      "latent_image": ["11", 0]
+    },
+    "class_type": "KSampler"
+  },
+  "14": {
+    "inputs": {
+      "samples": ["13", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "15": {
+    "inputs": {
+      "filename_prefix": "outpaint",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["14", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}
