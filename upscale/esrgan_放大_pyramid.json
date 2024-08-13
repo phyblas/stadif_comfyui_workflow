@@ -1,0 +1,100 @@
+{
+  "1": {
+    "class_type": "LoadImage"
+  },
+  "2": {
+    "inputs": {
+      "model_name": "RealESRGAN_x2.pth"
+    },
+    "class_type": "UpscaleModelLoader"
+  },
+  "3": {
+    "inputs": {
+      "model_name": "RealESRGAN_x4.pth"
+    },
+    "class_type": "UpscaleModelLoader"
+  },
+  "4": {
+    "inputs": {
+      "model_name": "RealESRGAN_x8.pth"
+    },
+    "class_type": "UpscaleModelLoader"
+  },
+  "5": {
+    "inputs": {
+      "upscale_method": "bilinear",
+      "width": 256,
+      "height": 256,
+      "crop": "disabled",
+      "image": ["1", 0]
+    },
+    "class_type": "ImageScale"
+  },
+  "6": {
+    "inputs": {
+      "upscale_model": ["2", 0],
+      "image": ["5", 0]
+    },
+    "class_type": "ImageUpscaleWithModel"
+  },
+  "7": {
+    "inputs": {
+      "upscale_model": ["3", 0],
+      "image": ["5", 0]
+    },
+    "class_type": "ImageUpscaleWithModel"
+  },
+  "8": {
+    "inputs": {
+      "upscale_model": ["4", 0],
+      "image": ["5", 0]
+    },
+    "class_type": "ImageUpscaleWithModel"
+  },
+  "9": {
+    "inputs": {
+      "upscale_method": "nearest-exact",
+      "scale_by": 8,
+      "image": ["5", 0]
+    },
+    "class_type": "ImageScaleBy"
+  },
+  "10": {
+    "inputs": {
+      "upscale_method": "nearest-exact",
+      "scale_by": 4,
+      "image": ["6", 0]
+    },
+    "class_type": "ImageScaleBy"
+  },
+  "11": {
+    "inputs": {
+      "upscale_method": "nearest-exact",
+      "scale_by": 2,
+      "image": ["7", 0]
+    },
+    "class_type": "ImageScaleBy"
+  },
+  "12": {
+    "inputs": {
+      "inputcount": 4,
+      "direction": "down",
+      "match_image_size": false,
+      "Update inputs": null,
+      "image_1": ["9", 0],
+      "image_2": ["10", 0],
+      "image_3": ["11", 0],
+      "image_4": ["8", 0]
+    },
+    "class_type": "ImageConcatMulti"
+  },
+  "13": {
+    "inputs": {
+      "filename_prefix": "realesrganpyramid",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["12", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}

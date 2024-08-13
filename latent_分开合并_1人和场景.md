@@ -1,6 +1,6 @@
 # 简单说明
 
-用latent来分开生成人物跟场景。
+用latent composition的方法来分开生成人物跟场景。
 
 # 需要插件
 
