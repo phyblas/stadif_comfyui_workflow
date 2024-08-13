@@ -35,7 +35,7 @@
   },
   "5": {
     "inputs": {
-      "lora_name": "LatentLabs360.safetensors",
+      "lora_name": "国风插画SDXL.safetensors",
       "strength_model": 1,
       "strength_clip": 1,
       "model": ["1", 0],

@@ -1,0 +1,164 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "bluePencilXL_v700.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "3": {
+    "inputs": {
+      "text": "guofeng"
+    },
+    "class_type": "ttN text"
+  },
+  "4": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "樱花树下的猫耳娘",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide"
+    },
+    "class_type": "DeepTranslatorTextNode"
+  },
+  "5": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "低品质",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide"
+    },
+    "class_type": "DeepTranslatorTextNode"
+  },
+  "6": {
+    "inputs": {
+      "seed": 123456789
+    },
+    "class_type": "ttN seed"
+  },
+  "7": {
+    "inputs": {
+      "lora_name": "国风插画SDXL.safetensors",
+      "strength_model": 1,
+      "strength_clip": 1,
+      "model": ["1", 0],
+      "clip": ["1", 1]
+    },
+    "class_type": "LoraLoader"
+  },
+  "8": {
+    "inputs": {
+      "text1": ["3", 0],
+      "text2": ["4", 0],
+      "separator": ", "
+    },
+    "class_type": "CR Text Concatenate"
+  },
+  "9": {
+    "inputs": {
+      "text": ["4", 0],
+      "clip": ["1", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "10": {
+    "inputs": {
+      "text": ["5", 0],
+      "clip": ["1", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "11": {
+    "inputs": {
+      "text": ["5", 0],
+      "clip": ["1", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "12": {
+    "inputs": {
+      "text": ["8", 0],
+      "clip": ["7", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "13": {
+    "inputs": {
+      "seed": ["6", 0],
+      "steps": 20,
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "denoise": 1,
+      "model": ["1", 0],
+      "positive": ["9", 0],
+      "negative": ["10", 0],
+      "latent_image": ["2", 0]
+    },
+    "class_type": "KSampler"
+  },
+  "14": {
+    "inputs": {
+      "seed": ["6", 0],
+      "steps": 20,
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "denoise": 1,
+      "model": ["7", 0],
+      "positive": ["12", 0],
+      "negative": ["11", 0],
+      "latent_image": ["2", 0]
+    },
+    "class_type": "KSampler"
+  },
+  "15": {
+    "inputs": {
+      "samples": ["13", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "16": {
+    "inputs": {
+      "samples": ["14", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "17": {
+    "inputs": {
+      "direction": "right",
+      "match_image_size": false,
+      "image1": ["15", 0],
+      "image2": ["16", 0]
+    },
+    "class_type": "ImageConcanate"
+  },
+  "18": {
+    "inputs": {
+      "filename_prefix": "txt2imglora",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["17", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}
