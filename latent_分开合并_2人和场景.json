@@ -1,0 +1,281 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "bluePencilXL_v700.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "width": 1152,
+      "height": 864,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "3": {
+    "inputs": {
+      "width": 832,
+      "height": 1216,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "4": {
+    "inputs": {
+      "width": 832,
+      "height": 1216,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "5": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "湖滨的油菜花田",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide"
+    },
+    "class_type": "DeepTranslatorTextNode"
+  },
+  "6": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "绿色辫子头发的猫耳娘",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide"
+    },
+    "class_type": "DeepTranslatorTextNode"
+  },
+  "7": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "粉红色双马尾的女仆",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide"
+    },
+    "class_type": "DeepTranslatorTextNode"
+  },
+  "8": {
+    "inputs": {
+      "int": 20
+    },
+    "class_type": "ttN int"
+  },
+  "9": {
+    "inputs": {
+      "int": 5
+    },
+    "class_type": "ttN int"
+  },
+  "10": {
+    "inputs": {
+      "text": ["5", 0],
+      "clip": ["1", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "11": {
+    "inputs": {
+      "text1": ["6", 0],
+      "text2": ["5", 0],
+      "separator": ", "
+    },
+    "class_type": "CR Text Concatenate"
+  },
+  "12": {
+    "inputs": {
+      "text1": ["7", 0],
+      "text2": ["5", 0],
+      "separator": ", "
+    },
+    "class_type": "CR Text Concatenate"
+  },
+  "13": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "低品质",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "14": {
+    "inputs": {
+      "text": ["11", 0],
+      "clip": ["1", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "15": {
+    "inputs": {
+      "text": ["12", 0],
+      "clip": ["1", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "16": {
+    "inputs": {
+      "text1": ["6", 0],
+      "text2": ["12", 0],
+      "separator": ", "
+    },
+    "class_type": "CR Text Concatenate"
+  },
+  "17": {
+    "inputs": {
+      "add_noise": "enable",
+      "noise_seed": 123456789,
+      "steps": ["8", 0],
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "start_at_step": 0,
+      "end_at_step": ["9", 0],
+      "return_with_leftover_noise": "enable",
+      "model": ["1", 0],
+      "positive": ["10", 0],
+      "negative": ["13", 0],
+      "latent_image": ["2", 0]
+    },
+    "class_type": "KSamplerAdvanced"
+  },
+  "18": {
+    "inputs": {
+      "text": ["16", 0],
+      "clip": ["1", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "19": {
+    "inputs": {
+      "add_noise": "enable",
+      "noise_seed": 123456789,
+      "steps": ["8", 0],
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "start_at_step": 0,
+      "end_at_step": ["9", 0],
+      "return_with_leftover_noise": "enable",
+      "model": ["1", 0],
+      "positive": ["14", 0],
+      "negative": ["13", 0],
+      "latent_image": ["3", 0]
+    },
+    "class_type": "KSamplerAdvanced"
+  },
+  "20": {
+    "inputs": {
+      "add_noise": "enable",
+      "noise_seed": 123456789,
+      "steps": ["8", 0],
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "start_at_step": 0,
+      "end_at_step": ["9", 0],
+      "return_with_leftover_noise": "enable",
+      "model": ["1", 0],
+      "positive": ["15", 0],
+      "negative": ["13", 0],
+      "latent_image": ["4", 0]
+    },
+    "class_type": "KSamplerAdvanced"
+  },
+  "21": {
+    "inputs": {
+      "upscale_method": "nearest-exact",
+      "width": 520,
+      "height": 760,
+      "crop": "disabled",
+      "samples": ["19", 0]
+    },
+    "class_type": "LatentUpscale"
+  },
+  "22": {
+    "inputs": {
+      "upscale_method": "nearest-exact",
+      "width": 520,
+      "height": 760,
+      "crop": "disabled",
+      "samples": ["20", 0]
+    },
+    "class_type": "LatentUpscale"
+  },
+  "23": {
+    "inputs": {
+      "x": 56,
+      "y": 104,
+      "feather": 40,
+      "samples_to": ["17", 0],
+      "samples_from": ["21", 0]
+    },
+    "class_type": "LatentComposite"
+  },
+  "24": {
+    "inputs": {
+      "x": 576,
+      "y": 104,
+      "feather": 40,
+      "samples_to": ["23", 0],
+      "samples_from": ["22", 0]
+    },
+    "class_type": "LatentComposite"
+  },
+  "25": {
+    "inputs": {
+      "add_noise": "disable",
+      "noise_seed": 123456789,
+      "steps": ["8", 0],
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "start_at_step": ["9", 0],
+      "end_at_step": ["8", 0],
+      "return_with_leftover_noise": "disable",
+      "model": ["1", 0],
+      "positive": ["18", 0],
+      "negative": ["13", 0],
+      "latent_image": ["24", 0]
+    },
+    "class_type": "KSamplerAdvanced"
+  },
+  "26": {
+    "inputs": {
+      "samples": ["25", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "27": {
+    "inputs": {
+      "filename_prefix": "latentcom",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["26", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}
