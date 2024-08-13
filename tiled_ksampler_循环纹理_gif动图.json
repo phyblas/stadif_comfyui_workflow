@@ -1,0 +1,117 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "tmndMix_tmndMixSPRAINBOW.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "3": {
+    "inputs": {
+      "start": 0,
+      "end": 512,
+      "step": 32,
+      "loops": 1,
+      "ping_pong": false
+    },
+    "class_type": "CR Integer Range List"
+  },
+  "4": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator [free]",
+      "text": "樱花，古风绘画",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "5": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator [free]",
+      "text": "低品质",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "6": {
+    "inputs": {
+      "seed": 123456789,
+      "tileX": 1,
+      "tileY": 1,
+      "steps": 20,
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "denoise": 1,
+      "model": ["1", 0],
+      "positive": ["4", 0],
+      "negative": ["5", 0],
+      "latent_image": ["2", 0]
+    },
+    "class_type": "Asymmetric Tiled KSampler"
+  },
+  "7": {
+    "inputs": {
+      "samples": ["6", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "Circular VAEDecode"
+  },
+  "8": {
+    "inputs": {
+      "direction": "right",
+      "match_image_size": false,
+      "image1": ["7", 0],
+      "image2": ["7", 0]
+    },
+    "class_type": "ImageConcanate"
+  },
+  "9": {
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "x": ["3", 0],
+      "y": 0,
+      "image": ["8", 0]
+    },
+    "class_type": "ImageCrop"
+  },
+  "10": {
+    "inputs": {
+      "image": ["9", 0]
+    },
+    "class_type": "ImageListToBatch+"
+  },
+  "11": {
+    "inputs": {
+      "frame_rate": 8,
+      "loop_count": 0,
+      "filename_prefix": "tiledroll",
+      "format": "image/gif",
+      "pingpong": false,
+      "save_output": true,
+      "images": ["10", 0]
+    },
+    "class_type": "VHS_VideoCombine"
+  }
+}
