@@ -7,7 +7,7 @@
   },
   "2": {
     "inputs": {
-      "lora_name": "SDXL-Lightning\\sdxl_lightning_4step_lora.safetensors",
+      "lora_name": "sdxl_lightning_4step_lora.safetensors",
       "strength_model": 1,
       "model": ["1", 0]
     },

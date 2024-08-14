@@ -103,7 +103,7 @@
   },
   "9": {
     "inputs": {
-      "filename_prefix": "txt2img_upscale",
+      "filename_prefix": "ultimateupscale",
       "file_type": "JPEG",
       "remove_metadata": false,
       "images": ["8", 0]

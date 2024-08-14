@@ -1,0 +1,211 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "bluePencilXL_v700.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "width": 1152,
+      "height": 864,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "3": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "湖滨的油菜花田",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide"
+    },
+    "class_type": "DeepTranslatorTextNode"
+  },
+  "4": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "绿色辫子头发的猫耳娘",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide"
+    },
+    "class_type": "DeepTranslatorTextNode"
+  },
+  "5": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "粉红色双马尾的女仆",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide"
+    },
+    "class_type": "DeepTranslatorTextNode"
+  },
+  "6": {
+    "inputs": {
+      "int": 20
+    },
+    "class_type": "ttN int"
+  },
+  "7": {
+    "inputs": {
+      "int": 5
+    },
+    "class_type": "ttN int"
+  },
+  "8": {
+    "inputs": {
+      "text1": ["4", 0],
+      "text2": ["3", 0],
+      "separator": ", "
+    },
+    "class_type": "CR Text Concatenate"
+  },
+  "9": {
+    "inputs": {
+      "text1": ["5", 0],
+      "text2": ["3", 0],
+      "separator": ", "
+    },
+    "class_type": "CR Text Concatenate"
+  },
+  "10": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "低品质",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "11": {
+    "inputs": {
+      "text": ["8", 0],
+      "clip": ["1", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "12": {
+    "inputs": {
+      "text": ["9", 0],
+      "clip": ["1", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "13": {
+    "inputs": {
+      "text1": ["4", 0],
+      "text2": ["9", 0],
+      "separator": ", "
+    },
+    "class_type": "CR Text Concatenate"
+  },
+  "14": {
+    "inputs": {
+      "text": ["13", 0],
+      "clip": ["1", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "15": {
+    "inputs": {
+      "width": 640,
+      "height": 864,
+      "x": 0,
+      "y": 0,
+      "strength": 1,
+      "conditioning": ["11", 0]
+    },
+    "class_type": "ConditioningSetArea"
+  },
+  "16": {
+    "inputs": {
+      "width": 640,
+      "height": 864,
+      "x": 512,
+      "y": 0,
+      "strength": 1,
+      "conditioning": ["12", 0]
+    },
+    "class_type": "ConditioningSetArea"
+  },
+  "17": {
+    "inputs": {
+      "conditioning_1": ["15", 0],
+      "conditioning_2": ["16", 0]
+    },
+    "class_type": "ConditioningCombine"
+  },
+  "18": {
+    "inputs": {
+      "add_noise": "enable",
+      "noise_seed": 123456789,
+      "steps": ["6", 0],
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "start_at_step": 0,
+      "end_at_step": ["7", 0],
+      "return_with_leftover_noise": "enable",
+      "model": ["1", 0],
+      "positive": ["17", 0],
+      "negative": ["10", 0],
+      "latent_image": ["2", 0]
+    },
+    "class_type": "KSamplerAdvanced"
+  },
+  "19": {
+    "inputs": {
+      "add_noise": "disable",
+      "noise_seed": 123456789,
+      "steps": ["6", 0],
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "start_at_step": ["7", 0],
+      "end_at_step": ["6", 0],
+      "return_with_leftover_noise": "disable",
+      "model": ["1", 0],
+      "positive": ["14", 0],
+      "negative": ["10", 0],
+      "latent_image": ["18", 0]
+    },
+    "class_type": "KSamplerAdvanced"
+  },
+  "20": {
+    "inputs": {
+      "samples": ["19", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "21": {
+    "inputs": {
+      "filename_prefix": "cliparea",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["20", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}
