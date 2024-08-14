@@ -21,3 +21,4 @@ controlnet关联
 - [WASasquatch / was-node-suite-comfyui](https://github.com/WASasquatch/was-node-suite-comfyui)
 - [jamesWalker55 / Various ComfyUI Nodes by Type](https://github.com/jamesWalker55/comfyui-various)
 - [cubiq / ComfyUI_essentials](https://github.com/cubiq/ComfyUI_essentials)
+- [ltdrdata / ComfyUI-Impact-Pack](https://github.com/ltdrdata/ComfyUI-Impact-Pack)

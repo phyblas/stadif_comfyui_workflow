@@ -1,0 +1,138 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "bluePencilXL_v700.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "3": {
+    "class_type": "LoadImage"
+  },
+  "4": {
+    "inputs": {
+      "value": 0,
+      "width": 1024,
+      "height": 1024
+    },
+    "class_type": "SolidMask"
+  },
+  "5": {
+    "inputs": {
+      "value": 1,
+      "width": 512,
+      "height": 768
+    },
+    "class_type": "SolidMask"
+  },
+  "6": {
+    "inputs": {
+      "preset": "STANDARD (medium strength)",
+      "model": ["1", 0]
+    },
+    "class_type": "IPAdapterUnifiedLoader"
+  },
+  "7": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "躺在花园的猫耳娘",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "8": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "低品质",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "9": {
+    "inputs": {
+      "left": 32,
+      "top": 32,
+      "right": 32,
+      "bottom": 0,
+      "mask": ["5", 0]
+    },
+    "class_type": "FeatherMask"
+  },
+  "10": {
+    "inputs": {
+      "x": 0,
+      "y": 256,
+      "operation": "add",
+      "destination": ["4", 0],
+      "source": ["9", 0]
+    },
+    "class_type": "MaskComposite"
+  },
+  "11": {
+    "inputs": {
+      "weight": 0.5,
+      "weight_type": "linear",
+      "combine_embeds": "concat",
+      "start_at": 0,
+      "end_at": 1,
+      "embeds_scaling": "V only",
+      "model": ["6", 0],
+      "ipadapter": ["6", 1],
+      "image": ["3", 0],
+      "attn_mask": ["10", 0]
+    },
+    "class_type": "IPAdapterAdvanced"
+  },
+  "12": {
+    "inputs": {
+      "seed": 123456789,
+      "steps": 20,
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "denoise": 1,
+      "model": ["11", 0],
+      "positive": ["7", 0],
+      "negative": ["8", 0],
+      "latent_image": ["2", 0]
+    },
+    "class_type": "KSampler"
+  },
+  "13": {
+    "inputs": {
+      "samples": ["12", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "14": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["13", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}
