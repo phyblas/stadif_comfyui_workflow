@@ -52,14 +52,6 @@
   },
   "7": {
     "inputs": {
-      "upscale_method": "nearest-exact",
-      "scale_by": 2,
-      "image": ["2", 0]
-    },
-    "class_type": "ImageScaleBy"
-  },
-  "8": {
-    "inputs": {
       "strength": 1,
       "conditioning": ["5", 0],
       "control_net": ["3", 0],
@@ -67,7 +59,7 @@
     },
     "class_type": "ControlNetApply"
   },
-  "9": {
+  "8": {
     "inputs": {
       "upscale_by": 2,
       "seed": 123456789,
@@ -90,19 +82,19 @@
       "tiled_decode": false,
       "image": ["2", 0],
       "model": ["1", 0],
-      "positive": ["8", 0],
+      "positive": ["7", 0],
       "negative": ["6", 0],
       "vae": ["1", 2],
       "upscale_model": ["4", 0]
     },
     "class_type": "UltimateSDUpscale"
   },
-  "10": {
+  "9": {
     "inputs": {
       "filename_prefix": "upscale",
       "file_type": "JPEG",
       "remove_metadata": false,
-      "images": ["9", 0]
+      "images": ["8", 0]
     },
     "class_type": "SaveImagePlus"
   }
