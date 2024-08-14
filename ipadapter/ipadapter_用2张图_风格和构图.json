@@ -1,0 +1,118 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "bluePencilXL_v700.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "width": 1024,
+      "height": 1024,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "3": {
+    "class_type": "LoadImage"
+  },
+  "4": {
+    "class_type": "LoadImage"
+  },
+  "5": {
+    "inputs": {
+      "preset": "STANDARD (medium strength)",
+      "model": ["1", 0]
+    },
+    "class_type": "IPAdapterUnifiedLoader"
+  },
+  "6": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "猫耳娘",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "7": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "低品质",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "8": {
+    "inputs": {
+      "weight": 0.5,
+      "weight_type": "style transfer",
+      "combine_embeds": "concat",
+      "start_at": 0,
+      "end_at": 1,
+      "embeds_scaling": "V only",
+      "model": ["5", 0],
+      "ipadapter": ["5", 1],
+      "image": ["3", 0]
+    },
+    "class_type": "IPAdapterAdvanced"
+  },
+  "9": {
+    "inputs": {
+      "weight": 0.5,
+      "weight_type": "composition",
+      "combine_embeds": "concat",
+      "start_at": 0,
+      "end_at": 1,
+      "embeds_scaling": "V only",
+      "model": ["8", 0],
+      "ipadapter": ["5", 1],
+      "image": ["4", 0]
+    },
+    "class_type": "IPAdapterAdvanced"
+  },
+  "10": {
+    "inputs": {
+      "seed": 123456789,
+      "steps": 20,
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "denoise": 1,
+      "model": ["9", 0],
+      "positive": ["6", 0],
+      "negative": ["7", 0],
+      "latent_image": ["2", 0]
+    },
+    "class_type": "KSampler"
+  },
+  "11": {
+    "inputs": {
+      "samples": ["10", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "12": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["11", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}
