@@ -1,0 +1,179 @@
+{
+  "1": {
+    "inputs": {
+      "ckpt_name": "meinamix_meinaV11.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "2": {
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "3": {
+    "class_type": "LoadImage"
+  },
+  "4": {
+    "inputs": {
+      "width": 512,
+      "height": 64,
+      "red": 0,
+      "green": 0,
+      "blue": 0
+    },
+    "class_type": "Image Blank"
+  },
+  "5": {
+    "inputs": {
+      "start": 0,
+      "end": 15,
+      "step": 1,
+      "loops": 1,
+      "ping_pong": false
+    },
+    "class_type": "CR Integer Range List"
+  },
+  "6": {
+    "inputs": {
+      "preset": "STANDARD (medium strength)",
+      "model": ["1", 0]
+    },
+    "class_type": "IPAdapterUnifiedLoader"
+  },
+  "7": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "绿色辫子头发的女仆",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "8": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "低品质",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "clip": ["1", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "9": {
+    "inputs": {
+      "strings": "linear\nease in\nease out\nease in-out\nreverse in-out\nweak input\nweak output\nweak middle\nstrong middle\nstyle transfer\ncomposition\nstrong style transfer\nstyle and composition\nstyle transfer precise\ncomposition precise",
+      "multiline": false,
+      "select": ["5", 0]
+    },
+    "class_type": "ImpactStringSelector"
+  },
+  "10": {
+    "inputs": {
+      "text": ["9", 0]
+    },
+    "class_type": "CR String To Combo"
+  },
+  "11": {
+    "inputs": {
+      "text": ["9", 0],
+      "font_size": 48,
+      "font": "arial",
+      "fill_color_hex": "#FFFFFF",
+      "stroke_color_hex": "#000000",
+      "stroke_thickness": 0,
+      "padding": 16,
+      "horizontal_alignment": "center",
+      "vertical_alignment": "middle",
+      "x_shift": 0,
+      "y_shift": 0,
+      "image": ["4", 0]
+    },
+    "class_type": "Text Overlay"
+  },
+  "12": {
+    "inputs": {
+      "weight": 1,
+      "weight_type": ["10", 0],
+      "combine_embeds": "concat",
+      "start_at": 0,
+      "end_at": 1,
+      "embeds_scaling": "V only",
+      "model": ["6", 0],
+      "ipadapter": ["6", 1],
+      "image": ["3", 0]
+    },
+    "class_type": "IPAdapterAdvanced"
+  },
+  "13": {
+    "inputs": {
+      "seed": 123456789,
+      "steps": 20,
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "denoise": 1,
+      "model": ["12", 0],
+      "positive": ["7", 0],
+      "negative": ["8", 0],
+      "latent_image": ["2", 0]
+    },
+    "class_type": "KSampler"
+  },
+  "14": {
+    "inputs": {
+      "samples": ["13", 0],
+      "vae": ["1", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "15": {
+    "inputs": {
+      "direction": "down",
+      "match_image_size": false,
+      "image1": ["11", 0],
+      "image2": ["14", 0]
+    },
+    "class_type": "ImageConcanate"
+  },
+  "16": {
+    "inputs": {
+      "images": ["15", 0]
+    },
+    "class_type": "ImageListToImageBatch"
+  },
+  "17": {
+    "inputs": {
+      "border_width": 0,
+      "number_of_columns": 5,
+      "max_cell_size": 576,
+      "border_red": 0,
+      "border_green": 0,
+      "border_blue": 0,
+      "images": ["16", 0]
+    },
+    "class_type": "Create Grid Image from Batch"
+  },
+  "18": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["17", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}
