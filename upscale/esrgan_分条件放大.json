@@ -1,0 +1,129 @@
+{
+  "1": {
+    "class_type": "LoadImage"
+  },
+  "2": {
+    "inputs": {
+      "text": "RealESRGAN_x2.pth",
+      "text_b": "RealESRGAN_x4.pth",
+      "text_c": "RealESRGAN_x8.pth",
+      "text_d": ""
+    },
+    "class_type": "Text String"
+  },
+  "3": {
+    "inputs": {
+      "value": 1800
+    },
+    "class_type": "ImpactInt",
+    "_meta": {
+      "title": "输出图片想要的宽度"
+    }
+  },
+  "4": {
+    "inputs": {
+      "value": 2
+    },
+    "class_type": "ImpactFloat"
+  },
+  "5": {
+    "inputs": {
+      "value": 4
+    },
+    "class_type": "ImpactFloat"
+  },
+  "6": {
+    "inputs": {
+      "image": ["1", 0]
+    },
+    "class_type": "GetImageSize+"
+  },
+  "7": {
+    "inputs": {
+      "a": ["3", 0],
+      "b": ["6", 0]
+    },
+    "class_type": "JWIntegerDiv"
+  },
+  "8": {
+    "inputs": {
+      "cmp": "a <= b",
+      "a": ["7", 0],
+      "b": ["4", 0]
+    },
+    "class_type": "ImpactCompare"
+  },
+  "9": {
+    "inputs": {
+      "cmp": "a <= b",
+      "a": ["7", 0],
+      "b": ["5", 0]
+    },
+    "class_type": "ImpactCompare"
+  },
+  "10": {
+    "inputs": {
+      "cond": ["8", 0],
+      "tt_value": ["2", 0],
+      "ff_value": ["2", 1]
+    },
+    "class_type": "ImpactConditionalBranch"
+  },
+  "11": {
+    "inputs": {
+      "cond": ["9", 0],
+      "tt_value": ["10", 0],
+      "ff_value": ["2", 2]
+    },
+    "class_type": "ImpactConditionalBranch"
+  },
+  "12": {
+    "inputs": {
+      "text": ["11", 0]
+    },
+    "class_type": "CR String To Combo"
+  },
+  "13": {
+    "inputs": {
+      "model_name": ["12", 0]
+    },
+    "class_type": "UpscaleModelLoader"
+  },
+  "14": {
+    "inputs": {
+      "upscale_model": ["13", 0],
+      "image": ["1", 0]
+    },
+    "class_type": "ImageUpscaleWithModel"
+  },
+  "15": {
+    "inputs": {
+      "image": ["14", 0]
+    },
+    "class_type": "GetImageSize+"
+  },
+  "16": {
+    "inputs": {
+      "a": ["3", 0],
+      "b": ["15", 0]
+    },
+    "class_type": "JWIntegerDiv"
+  },
+  "17": {
+    "inputs": {
+      "factor": ["16", 0],
+      "interpolation_mode": "bilinear",
+      "image": ["14", 0]
+    },
+    "class_type": "JWImageResizeByFactor"
+  },
+  "18": {
+    "inputs": {
+      "filename_prefix": "realesrgan",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["17", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}
