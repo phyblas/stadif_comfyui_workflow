@@ -1,6 +1,6 @@
 # 简单说明
 
-用[ComfyUI-safety-checker](https://github.com/42lux/ComfyUI-safety-checker)来判定有没有nsfw的内容二而自动做马赛克。
+用[ComfyUI-safety-checker](https://github.com/42lux/ComfyUI-safety-checker)来判定nsfw内容而如果有就自动对结果做马赛克。
 
 # 需要插件
 
