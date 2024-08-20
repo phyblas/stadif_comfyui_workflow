@@ -1,0 +1,55 @@
+{
+  "1": {
+    "inputs": {
+      "image": "image.jpg",
+      "upload": "image"
+    },
+    "class_type": "LoadImage"
+  },
+  "2": {
+    "inputs": {
+      "image": "mask.png",
+      "channel": "red",
+      "upload": "image"
+    },
+    "class_type": "LoadImageMask"
+  },
+  "3": {
+    "inputs": {
+      "image": "example1.jpg",
+      "upload": "image"
+    },
+    "class_type": "LoadImage"
+  },
+  "4": {
+    "inputs": {
+      "image": "example2.jpg",
+      "upload": "image"
+    },
+    "class_type": "LoadImage"
+  },
+  "5": {
+    "inputs": {
+      "image1": ["3", 0],
+      "image2": ["4", 0]
+    },
+    "class_type": "ImageBatch"
+  },
+  "6": {
+    "inputs": {
+      "seed": 123456789,
+      "steps": 30,
+      "image": ["1", 0],
+      "mask": ["2", 0],
+      "example": ["5", 0]
+    },
+    "class_type": "PaintbyExampleSimple"
+  },
+  "7": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": ["6", 0]
+    },
+    "class_type": "SaveImage"
+  }
+}

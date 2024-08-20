@@ -1,0 +1,33 @@
+{
+  "1": {
+    "inputs": {
+      "image": "clipspace/clipspace-mask-733935.png [input]",
+      "upload": "image"
+    },
+    "class_type": "LoadImage"
+  },
+  "2": {
+    "inputs": {
+      "image": "example1.jpg",
+      "upload": "image"
+    },
+    "class_type": "LoadImage"
+  },
+  "3": {
+    "inputs": {
+      "seed": 123456789,
+      "steps": 30,
+      "image": ["1", 0],
+      "mask": ["1", 1],
+      "example": ["2", 0]
+    },
+    "class_type": "PaintbyExampleSimple"
+  },
+  "4": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": ["3", 0]
+    },
+    "class_type": "SaveImage"
+  }
+}
