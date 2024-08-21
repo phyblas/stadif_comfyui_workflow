@@ -1,0 +1,99 @@
+{
+  "1": {
+    "class_type": "LoadImage"
+  },
+  "2": {
+    "class_type": "BRIA_RMBG_ModelLoader_Zho"
+  },
+  "3": {
+    "inputs": {
+      "ckpt_name": "Cooi_nijigen_SDXL_1.0.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "4": {
+    "inputs": {
+      "rmbgmodel": ["2", 0],
+      "image": ["1", 0]
+    },
+    "class_type": "BRIA_RMBG_Zho"
+  },
+  "5": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "神社",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "speak_and_recognation": true,
+      "clip": ["3", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "6": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "低品质",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "speak_and_recognation": true,
+      "clip": ["3", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "7": {
+    "inputs": {
+      "mask": ["4", 1]
+    },
+    "class_type": "InvertMask"
+  },
+  "8": {
+    "inputs": {
+      "grow_mask_by": 0,
+      "pixels": ["1", 0],
+      "vae": ["3", 2],
+      "mask": ["7", 0]
+    },
+    "class_type": "VAEEncodeForInpaint"
+  },
+  "9": {
+    "inputs": {
+      "seed": 123456789,
+      "steps": 20,
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "denoise": 1,
+      "model": ["3", 0],
+      "positive": ["5", 0],
+      "negative": ["6", 0],
+      "latent_image": ["8", 0]
+    },
+    "class_type": "KSampler"
+  },
+  "10": {
+    "inputs": {
+      "samples": ["9", 0],
+      "vae": ["3", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "11": {
+    "inputs": {
+      "filename_prefix": "briainpaint",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["10", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}
