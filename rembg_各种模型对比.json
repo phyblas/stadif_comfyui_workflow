@@ -1,0 +1,70 @@
+{
+  "1": {
+    "class_type": "LoadImage"
+  },
+  "2": {
+    "inputs": {
+      "start": 0,
+      "end": 6,
+      "step": 1,
+      "loops": 1,
+      "ping_pong": false
+    },
+    "class_type": "CR Integer Range List"
+  },
+  "3": {
+    "inputs": {
+      "strings": "u2net\nu2netp\nu2net_human_seg\nsilueta\nisnet-general-use\nisnet-anime",
+      "multiline": false,
+      "select": ["2", 0],
+      "speak_and_recognation": true
+    },
+    "class_type": "ImpactStringSelector"
+  },
+  "4": {
+    "inputs": {
+      "text": ["3", 0]
+    },
+    "class_type": "CR String To Combo"
+  },
+  "5": {
+    "inputs": {
+      "transparency": true,
+      "model": ["4", 0],
+      "post_processing": true,
+      "only_mask": false,
+      "alpha_matting": false,
+      "alpha_matting_foreground_threshold": 240,
+      "alpha_matting_background_threshold": 10,
+      "alpha_matting_erode_size": 10,
+      "background_color": "none",
+      "images": ["1", 0]
+    },
+    "class_type": "Image Rembg (Remove Background)"
+  },
+  "6": {
+    "inputs": {
+      "text": ["3", 0],
+      "font_size": 50,
+      "font": "arial",
+      "fill_color_hex": "#FFFFFF",
+      "stroke_color_hex": "#000000",
+      "stroke_thickness": 0,
+      "padding": 16,
+      "horizontal_alignment": "left",
+      "vertical_alignment": "top",
+      "x_shift": 0,
+      "y_shift": 0,
+      "speak_and_recognation": true,
+      "image": ["5", 0]
+    },
+    "class_type": "Text Overlay"
+  },
+  "7": {
+    "inputs": {
+      "filename_prefix": "rembg",
+      "images": ["6", 0]
+    },
+    "class_type": "SaveImage"
+  }
+}
