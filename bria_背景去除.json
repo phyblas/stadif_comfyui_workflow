@@ -1,0 +1,29 @@
+{
+  "1": {
+    "class_type": "LoadImage"
+  },
+  "2": {
+    "inputs": {},
+    "class_type": "BRIA_RMBG_ModelLoader_Zho"
+  },
+  "3": {
+    "inputs": {
+      "rmbgmodel": ["2", 0],
+      "image": ["1", 0]
+    },
+    "class_type": "BRIA_RMBG_Zho"
+  },
+  "4": {
+    "inputs": {
+      "filename_prefix": "bria",
+      "images": ["3", 0]
+    },
+    "class_type": "SaveImage"
+  },
+  "5": {
+    "inputs": {
+      "mask": ["3", 1]
+    },
+    "class_type": "MaskPreview+"
+  }
+}
