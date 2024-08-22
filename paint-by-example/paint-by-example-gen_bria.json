@@ -1,0 +1,94 @@
+{
+  "1": {
+    "inputs": {
+      "image": "example3.jpg",
+      "upload": "image"
+    },
+    "class_type": "LoadImage"
+  },
+  "2": {
+    "inputs": {},
+    "class_type": "BRIA_RMBG_ModelLoader_Zho"
+  },
+  "3": {
+    "inputs": {
+      "ckpt_name": "absolutereality_v181.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "4": {
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage"
+  },
+  "5": {
+    "inputs": {
+      "rmbgmodel": ["2", 0],
+      "image": ["1", 0]
+    },
+    "class_type": "BRIA_RMBG_Zho"
+  },
+  "6": {
+    "inputs": {
+      "text": "merlion",
+      "speak_and_recognation": true,
+      "clip": ["3", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "7": {
+    "inputs": {
+      "text": "bad quality",
+      "speak_and_recognation": true,
+      "clip": ["3", 1]
+    },
+    "class_type": "CLIPTextEncode"
+  },
+  "8": {
+    "inputs": {
+      "expand": 40,
+      "tapered_corners": true,
+      "mask": ["5", 1]
+    },
+    "class_type": "GrowMask"
+  },
+  "9": {
+    "inputs": {
+      "seed": 123456789,
+      "steps": 30,
+      "cfg": 5,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "image": ["1", 0],
+      "mask": ["8", 0],
+      "model": ["3", 0],
+      "positive": ["6", 0],
+      "negative": ["7", 0],
+      "latent_image": ["4", 0],
+      "vae": ["3", 2]
+    },
+    "class_type": "PaintbyExampleGen"
+  },
+  "10": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": ["9", 0]
+    },
+    "class_type": "SaveImage"
+  },
+  "11": {
+    "inputs": {
+      "images": ["9", 1]
+    },
+    "class_type": "PreviewImage"
+  },
+  "12": {
+    "inputs": {
+      "images": ["5", 0]
+    },
+    "class_type": "PreviewImage"
+  }
+}
