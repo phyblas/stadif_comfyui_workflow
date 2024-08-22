@@ -1,0 +1,126 @@
+{
+  "1": {
+    "inputs": {
+      "image": "txt2img_00032_.jpg",
+      "upload": "image"
+    },
+    "class_type": "LoadImage"
+  },
+  "2": {
+    "inputs": {},
+    "class_type": "BRIA_RMBG_ModelLoader_Zho"
+  },
+  "3": {
+    "inputs": {
+      "ckpt_name": "absolutereality_v181.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple"
+  },
+  "4": {
+    "inputs": {
+      "control_net_name": "control_v11p_sd15_inpaint_fp16.safetensors"
+    },
+    "class_type": "ControlNetLoader"
+  },
+  "5": {
+    "inputs": {
+      "rmbgmodel": ["2", 0],
+      "image": ["1", 0]
+    },
+    "class_type": "BRIA_RMBG_Zho"
+  },
+  "6": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "神社",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "speak_and_recognation": true,
+      "clip": ["3", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "7": {
+    "inputs": {
+      "from_translate": "auto",
+      "to_translate": "english",
+      "add_proxies": false,
+      "proxies": "",
+      "auth_data": "",
+      "service": "GoogleTranslator",
+      "text": "低品质",
+      "Show proxy": "proxy_hide",
+      "Show authorization": "authorization_hide",
+      "speak_and_recognation": true,
+      "clip": ["3", 1]
+    },
+    "class_type": "DeepTranslatorCLIPTextEncodeNode"
+  },
+  "8": {
+    "inputs": {
+      "mask": ["5", 1]
+    },
+    "class_type": "InvertMask"
+  },
+  "9": {
+    "inputs": {
+      "grow_mask_by": 0,
+      "pixels": ["1", 0],
+      "vae": ["3", 2],
+      "mask": ["8", 0]
+    },
+    "class_type": "VAEEncodeForInpaint"
+  },
+  "10": {
+    "inputs": {
+      "image": ["1", 0],
+      "mask": ["8", 0]
+    },
+    "class_type": "InpaintPreprocessor"
+  },
+  "11": {
+    "inputs": {
+      "strength": 1,
+      "conditioning": ["6", 0],
+      "control_net": ["4", 0],
+      "image": ["10", 0]
+    },
+    "class_type": "ControlNetApply"
+  },
+  "12": {
+    "inputs": {
+      "seed": 755219081288421,
+      "steps": 20,
+      "cfg": 7,
+      "sampler_name": "ddim",
+      "scheduler": "ddim_uniform",
+      "denoise": 1,
+      "model": ["3", 0],
+      "positive": ["11", 0],
+      "negative": ["7", 0],
+      "latent_image": ["9", 0]
+    },
+    "class_type": "KSampler"
+  },
+  "13": {
+    "inputs": {
+      "samples": ["12", 0],
+      "vae": ["3", 2]
+    },
+    "class_type": "VAEDecode"
+  },
+  "14": {
+    "inputs": {
+      "filename_prefix": "briainpaint",
+      "file_type": "JPEG",
+      "remove_metadata": false,
+      "images": ["13", 0]
+    },
+    "class_type": "SaveImagePlus"
+  }
+}
