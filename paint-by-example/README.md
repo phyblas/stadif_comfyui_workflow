@@ -15,4 +15,4 @@
 ![workflow2.jpg](workflow2.jpg)
 ![workflow3.jpg](workflow3.jpg)
 ![workflow5.jpg](workflow5.jpg)
-![workflow5.jpg](workflow6.jpg)
+![workflow6.jpg](workflow6.jpg)
