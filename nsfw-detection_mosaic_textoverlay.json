@@ -32,7 +32,7 @@
       "to_translate": "english",
       "add_proxies": false,
       "service": "GoogleTranslator [free]",
-      "text": "คุณภาพต่ำ",
+      "text": "低品质",
       "Show proxy": "proxy_hide",
       "Show authorization": "authorization_hide",
       "clip": ["1", 1]
@@ -94,6 +94,7 @@
       "vertical_alignment": "middle",
       "x_shift": 0,
       "y_shift": 0,
+      "line_spacing": 3.2,
       "image": ["8", 0]
     },
     "class_type": "Text Overlay"

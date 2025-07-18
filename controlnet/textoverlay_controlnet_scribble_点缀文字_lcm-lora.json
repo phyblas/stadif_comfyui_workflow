@@ -52,6 +52,7 @@
       "vertical_alignment": "middle",
       "x_shift": 0,
       "y_shift": -20,
+      "line_spacing": 3.2,
       "image": ["3", 0]
     },
     "class_type": "Text Overlay"
