@@ -80,15 +80,9 @@
   },
   "11": {
     "inputs": {
-      "backend": "inductor",
-      "fullgraph": false,
-      "mode": "default",
-      "dynamic": false,
-      "compile_transformer_blocks_only": false,
-      "dynamo_cache_size_limit": 64,
       "model": ["6", 0]
     },
-    "class_type": "TorchCompileModelWanVideoV2"
+    "class_type": "TorchCompileModelWanVideo"
   },
   "12": {
     "inputs": {
